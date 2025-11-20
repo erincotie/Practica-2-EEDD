@@ -8,20 +8,27 @@ using namespace std;
 #define N_PEDIDOS  30  //se definen el numero de pedidos creados inicialmente y en la opcion 8
 
 
-struct Pedido;
-struct Libreria;
+struct Pedido{
+    int id_libreria;
+    int id_editorial;
+    string id_pedido;
+    string cod_libro;
+    string materia;
+    int unidades;
+    string fecha;
+};
 
 class NodoLista
 {
 private:
-    int valor;
+    Pedido valor;
     NodoLista *siguiente;
     friend class Lista;
 
 public:
-    NodoLista(int v, NodoLista *sig = NULL)
+    NodoLista(Pedido p, NodoLista *sig = NULL)
     {
-        valor = v;
+        valor = p;
         siguiente = sig;
     }
 };
@@ -53,15 +60,6 @@ public:
 
 };
 
-struct Pedido{
-    int id_libreria;
-    int id_editorial;
-    string id_pedido;
-    string cod_libro;
-    string materia;
-    int unidades;
-    string fecha;
-};
 
 struct Libreria{
     int id_libreria;

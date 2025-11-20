@@ -1,4 +1,3 @@
-
 #include "ccontrol.h"
 
 using namespace std;
@@ -242,3 +241,111 @@ void Mostrar(Libreria l)
 {
    cout << l.id_libreria << ":" << l.localidad<<" ";
 }
+
+
+Lista::~Lista()
+{
+    pnodo aux;
+    while(cabeza)
+    {
+        aux = cabeza;
+        cabeza = cabeza->siguiente;
+        delete aux;
+    }
+    actual = NULL;
+}
+
+void Lista::insertarPedido(Pedido p) {
+    pnodo aux;
+
+    if (listaVacia())
+    {
+        cabeza = new NodoLista(p, NULL);
+        final=cabeza;
+    }
+    else
+    {
+        aux= new NodoLista(p,NULL);
+        final->siguiente=aux;
+        final=aux;
+    }
+}
+
+void Lista::borrarPedido(Pedido p) {
+    pnodo anterior;
+
+    if (cabeza == NULL) return;
+    else{
+    actual = cabeza;
+
+    while (actual->valor.id_pedido != p.id_pedido && (actual->siguiente)!=NULL)
+    {
+        anterior=actual;
+        actual=actual->siguiente;
+    }
+
+    if (actual->valor.id_pedido == p.id_pedido){ //comprobación de que está v en la lista
+        if(actual==cabeza)
+            cabeza = actual->siguiente;
+        else
+        {
+            anterior->siguiente = actual->siguiente;
+            if (actual==final)
+            {
+                final=anterior;
+            }
+        }
+        actual->siguiente=NULL;
+        delete actual;
+    }
+    }
+}
+
+
+bool Lista::listaVacia(){
+    return cabeza == NULL;
+}
+
+void Lista::esCabeza()
+{
+    actual = cabeza;
+}
+
+void Lista::esFinal()
+{
+    esCabeza();
+    if(!listaVacia())
+        while(actual->siguiente)
+            esSiguiente();
+}
+
+void Lista::esSiguiente()
+{
+    if(actual) actual = actual->siguiente;
+}
+
+bool Lista::esActual()
+{
+    return actual != NULL;
+}
+
+Pedido Lista::valorActual()
+{
+    return actual->valor;
+}
+
+
+void Lista::recorrerLista()
+{
+    pnodo aux;
+    aux = cabeza;
+
+    while(aux)
+    {
+        cout << aux->valor.id_pedido << "-> ";
+        aux = aux->siguiente;
+    }
+    cout << endl;
+}
+
+
