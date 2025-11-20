@@ -1,1 +1,149 @@
+#ifndef CCONTROL.H
+#define CCONTROL.H
 
+#include <iostream>
+using namespace std;
+
+#define N_LIBRERIAS  10  //se definen el numero de librerias creadas inicialmente
+#define N_PEDIDOS  30  //se definen el numero de pedidos creados inicialmente y en la opcion 8
+
+
+struct Pedido;
+struct Libreria;
+
+class NodoLista
+{
+private:
+    int valor;
+    NodoLista *siguiente;
+    friend class Lista;
+
+public:
+    NodoLista(int v, NodoLista *sig = NULL)
+    {
+        valor = v;
+        siguiente = sig;
+    }
+};
+typedef NodoLista *pnodo;
+
+
+
+class Lista
+{
+private:
+    pnodo cabeza, actual, final;
+
+public:
+    Lista()
+    {
+        cabeza = actual = final= NULL;
+    }
+    ~Lista();
+
+    void insertarPedido(Pedido p);
+    void borrarPedido(Pedido p);
+    bool listaVacia();
+    void esCabeza();
+    void esFinal();
+    void esSiguiente();
+    bool esActual();
+    Pedido valorActual();
+    void recorrerLista();
+
+};
+
+struct Pedido{
+    int id_libreria;
+    int id_editorial;
+    string id_pedido;
+    string cod_libro;
+    string materia;
+    int unidades;
+    string fecha;
+};
+
+struct Libreria{
+    int id_libreria;
+    string localidad;
+    Lista* listaPedidos;
+};
+
+void Mostrar(Libreria l);
+
+class NodoArb
+{
+    private:
+        // Miembros:
+        Libreria dato;
+        NodoArb *izquierdo;
+        NodoArb *derecho;
+        friend class ArbolABB;
+
+    public:
+        // Constructor:
+        NodoArb(Libreria l, NodoArb *izq=NULL, NodoArb *der=NULL) :
+            dato(l), izquierdo(izq), derecho(der) {}
+
+};
+
+class ArbolABB
+{
+    private:
+        // Punteros de la lista, para cabeza y nodo actual:
+        NodoArb *raiz;
+        NodoArb *actual;
+        int contador;
+        int altura;
+
+    public:
+        // Constructor y destructor básicos:
+        ArbolABB() : raiz(NULL), actual(NULL) {}
+        ~ArbolABB();
+         // Insertar en árbol ordenado:
+        void Insertar(Libreria l);
+        // Borrar un elemento del árbol:
+        void Borrar(Libreria l);
+        // Función de búsqueda:
+        bool Buscar(Libreria l);
+        // Comprobar si el árbol está vacío:
+        bool Vacio(NodoArb *r);
+        // Comprobar si es un nodo hoja:
+        bool EsHoja(NodoArb *r);
+        // Contar número de nodos:
+        const int NumeroNodos();
+        const int AlturaArbol();
+        // Calcular altura de un int:
+        int Altura(Libreria l);
+        // Moverse al nodo raiz:
+        void Raiz();
+        // Aplicar una función a cada elemento del árbol:
+        void InOrden(void (*func)(Libreria), NodoArb *nodo=NULL, bool r=true);
+        void PreOrden(void (*func)(Libreria), NodoArb *nodo=NULL, bool r=true);
+        void PostOrden(void (*func)(Libreria), NodoArb *nodo=NULL, bool r=true);
+    private:
+        // Funciones auxiliares
+        void Podar(NodoArb* &);
+        void auxContador(NodoArb*);
+        void auxAltura(NodoArb*, int);
+};
+
+
+
+
+
+//Funciones para generar los pedidos de manera aleatoria (auxiliares para la funcion generar Pedido del main)
+//Genera un numero aleatorio entre un minimo y maximo
+int generarNumAleatorio(int minimo, int maximo);
+
+//Genera una letra mayuscula aleatoria (usa caracteres ASCII)
+char generarLetraMayusAleatoria();
+
+//Genera un codigo libro aleatorio del formato NNNCNN (N:digito, C: letra mayuscula)
+string generarCodigoLibro();
+
+//Genera un codigo pedido aleatorio del formato 'P'NNNNN (N:digito)
+string generarCodigoPedido();
+
+
+#endif // CCONTROL
