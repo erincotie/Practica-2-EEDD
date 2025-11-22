@@ -126,9 +126,18 @@ class ArbolABB
         void auxAltura(NodoArb*, int);
 };
 
+//Loop principal del programa.
+bool loopPrincipal();
 
+//Permite rellenar una lista con pedidos.
+void generarPedidos(Lista *lista);
 
+//Muestra por pantalla el contenido de una lista de pedidos.
+void mostrarLista(Lista *lista);
 
+void crearArbolGlobal();
+
+Libreria generarLibAleatoria();
 
 //Funciones para generar los pedidos de manera aleatoria (auxiliares para la funcion generar Pedido del main)
 //Genera un numero aleatorio entre un minimo y maximo
@@ -143,5 +152,7 @@ string generarCodigoLibro();
 //Genera un codigo pedido aleatorio del formato 'P'NNNNN (N:digito)
 string generarCodigoPedido();
 
+//Prepara el dispositivo Rand.
+void introducirSeed();
 
 #endif // CCONTROL

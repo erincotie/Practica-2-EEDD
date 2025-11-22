@@ -2,8 +2,14 @@
 
 using namespace std;
 
-string Localidades[20] ={"Mostoles", "Alcala", "Leganes", "Fuenlabrada", "Getafe", "Alcorcon", "Torrejon", "Parla", "Alcobendas", "Coslada", "Pozuelo", "Rivas", "Valdemoro","Majadahonda", "Aranjuez", "Arganda", "Boadilla", "Pinto", "Colmenar", "Tres Cantos"};
-string Materias[6] = {"Matematicas", "Historia","Lengua", "Musica", "Tecnologia", "Fisica" };
+Lista listaGlobal;
+ArbolABB arbolGlobal;
+
+//En lugar de arrays, podriamos usar una lista y añadir a la TAD lista el atributo "tamaño".
+#define NUM_LOCALIDADES 20
+string Localidades[NUM_LOCALIDADES] ={"Mostoles", "Alcala", "Leganes", "Fuenlabrada", "Getafe", "Alcorcon", "Torrejon", "Parla", "Alcobendas", "Coslada", "Pozuelo", "Rivas", "Valdemoro","Majadahonda", "Aranjuez", "Arganda", "Boadilla", "Pinto", "Colmenar", "Tres Cantos"};
+#define NUM_MATERIAS 6
+string Materias[NUM_MATERIAS] = {"Matematicas", "Historia","Lengua", "Musica", "Tecnologia", "Fisica" };
 
 //Destructor
 ArbolABB::~ArbolABB()
@@ -239,7 +245,7 @@ void ArbolABB::auxAltura(NodoArb *nodo, int a)
 // Función de prueba para recorridos del árbol
 void Mostrar(Libreria l)
 {
-   cout << l.id_libreria << ":" << l.localidad<<" ";
+   cout << l.id_libreria << ":" << l.localidad<<" " << endl;
 }
 
 
@@ -348,4 +354,77 @@ void Lista::recorrerLista()
     cout << endl;
 }
 
+void introducirSeed()
+{
+    //if(SEED > 0) srand (SEED);
+    //else srand (time(NULL));
+    srand(time(NULL));
+}
 
+void crearArbolGlobal(){
+    arbolGlobal = ArbolABB();
+    for(int i = 0; i < N_LIBRERIAS; i++){
+        arbolGlobal.Insertar(generarLibAleatoria());
+    };
+}
+
+void mostrarArbolGlobal(){
+    cout << "Pedidos repartidos. Estado del arbol:" << endl;
+
+}
+
+Libreria generarLibAleatoria(){
+    Lista *libLista = new Lista();
+    Libreria libreria = {generarNumAleatorio(0, 1000), Localidades[generarNumAleatorio(0, NUM_LOCALIDADES)], libLista};
+    return libreria;
+}
+
+bool loopPrincipal(){
+    char r;
+
+    //Primer paso: Generar pedidos nuevos.
+    cout << "Creando los siguientes nuevos pedidos." << endl;
+    cout << endl;
+    cout << "ASTERISCO MOSTRAR PEDIDOS NUEVOS ASTERISCO" << endl;
+    cout << endl;
+    //generarPedidos(&listaGlobal);
+    //mostrarLista(&listaGlobal);
+    cout << "<<< Presione cualquier tecla para continuar >>>" << endl;
+
+    cin.get();
+    cin.clear();
+    cin.ignore();
+
+    //Segundo paso: Repartir los pedidos y dar opciones al usuario.
+    //repartirPedidos(&ListaGlobal, &arbolGlobal);
+    //mostrarIdentificadores();
+
+    cout << "Opciones disponibles:" << endl
+    << "1- Insertar una libreria de forma manual. (NO IMPLEMENETADO)" << endl
+    << "2- Borrar una libreria del arbol. (NO IMPLEMENETADO)" << endl
+    << "3- Mostrar los datos de los pedidos de una libreria dada. (NO IMPLEMENETADO)" << endl
+    << "4- Buscar un pedido concreto por su ID. (NO IMPLEMENETADO)" << endl
+    << "5- Extraer un pedido concreto. (Eliminar). (NO IMPLEMENETADO)" << endl
+    << "6- Llevar un pedido concreto de una libreria a otra. (NO IMPLEMENETADO)" << endl
+    << "7- Mostrar una estadistica de las librerias. (NO IMPLEMENETADO)" << endl
+    << "8- Continuar con la distribucion de pedidos. (NO IMPLEMENETADO)" << endl
+    << "0- Salir del programa" << endl;
+
+    cout << "Seleccione una opcion del menu: " << endl;
+    cin >> r;
+
+    return true;
+}
+
+void generarPedidos(Lista *lista){
+}
+
+int generarNumAleatorio(int minimo, int maximo){
+    return (rand() % (maximo-minimo) ) + minimo;
+};
+
+char generarLetraMayusAleatoria();
+
+string generarCodigoLibro();
+
+string generarCodigoPedido();
