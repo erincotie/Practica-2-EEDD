@@ -189,6 +189,19 @@ bool ArbolABB::Buscar(Libreria l)
    return false; // No está en árbol
 }
 
+Libreria* ArbolABB::BuscarPorId(int id)
+{
+   actual = raiz;
+
+   // Todavía puede aparecer, ya que quedan nodos por mirar
+   while(!Vacio(actual)) {
+      if(id == actual->dato.id_libreria) return &actual->dato; // id encontrado
+      else if(id > actual->dato.id_libreria) actual = actual->derecho; // Seguir
+      else if(id < actual->dato.id_libreria) actual = actual->izquierdo;
+   }
+   return nullptr; // No está en árbol
+}
+
 // Calcular la altura del nodo que contiene el int dat
 int ArbolABB::Altura(Libreria l)
 {
@@ -360,11 +373,12 @@ void Lista::recorrerLista()
 
     while(aux)
     {
-        cout << setw(3) << aux->valor.id_libreria << "|"
-             << setw(8) << aux->valor.id_pedido   << "|"
-             << setw(8) << aux->valor.cod_libro   <<"|"
+        cout << "|  "
+             << setw(11) << aux->valor.id_libreria << "|"
+             << setw(11) << aux->valor.id_pedido   << "|"
+             << setw(12) << aux->valor.cod_libro   <<"|"
              << setw(12)<< aux->valor.materia     <<"|"
-             << setw(3) << aux->valor.unidades    <<"|"
+             << setw(10) << aux->valor.unidades    <<"|"
              << setw(10)<< aux->valor.fecha       <<"|"
              << endl;
         aux = aux->siguiente;
@@ -404,9 +418,9 @@ Libreria generarLibAleatoria(){
 
 void mostrarCabecera(){
     //cout << titulo << ":" << endl
-             cout << "--------------------------------------------------------------------"<<endl
-             <<      "| ID Libreria | ID Pedido | Cod. Libro | Materia | Unidades | Fecha |"<<endl
-             <<      "--------------------------------------------------------------------"<<endl;
+             cout << "---------------------------------------------------------------------------"<<endl
+             <<      "| ID Libreria | ID Pedido | Cod. Libro |   Materia  | Unidades |   Fecha   |"<<endl
+             <<      "---------------------------------------------------------------------------"<<endl;
 }
 
 bool loopPrincipal(){
@@ -517,4 +531,5 @@ void inicializarABB(){
 
     cout << "Arbol vacio creado:" << endl;
     arbolGlobal->InOrden(Mostrar);
+
 }

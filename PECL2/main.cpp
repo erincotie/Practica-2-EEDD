@@ -8,6 +8,7 @@ int main()
     introducirSeed();
     inicializarABB();
 
+
     bool continuar = true;
     while(continuar){
         continuar = loopPrincipal();

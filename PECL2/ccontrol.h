@@ -104,6 +104,8 @@ class ArbolABB
         void Borrar(Libreria l);
         // Función de búsqueda:
         bool Buscar(Libreria l);
+        //Devuelve un puntero a la libreria si está se encuentra en el árbol, por su ID
+        Libreria* BuscarPorId(int id);
         // Comprobar si el árbol está vacío:
         bool Vacio(NodoArb *r);
         // Comprobar si es un nodo hoja:
