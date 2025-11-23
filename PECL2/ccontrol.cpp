@@ -428,8 +428,7 @@ void mostrarCabecera(){
              <<      "---------------------------------------------------------------------------"<<endl;
 }
 
-bool loopPrincipal(){
-    char r;
+void inicioPrograma(){
 
     //Primer paso: Generar pedidos nuevos.
     cout << "Creando los siguientes nuevos pedidos." << endl;
@@ -446,7 +445,11 @@ bool loopPrincipal(){
     repartirPedidos(listaGlobal, arbolGlobal);
     cout << "Pedidos repartidos. Estado del arbol:" << endl;
     arbolGlobal->InOrden(Mostrar);
+}
 
+bool loopPrincipal(){
+
+    //Opciones del menú
 
     cout << "Opciones disponibles:" << endl
     << "1- Insertar una libreria de forma manual. (NO IMPLEMENTADO)" << endl
@@ -460,8 +463,56 @@ bool loopPrincipal(){
     << "0- Salir del programa" << endl;
 
     cout << "Seleccione una opcion del menu: " << endl;
-    cin >> r;
+    int opcion;
+    cin >> opcion;
+    // proteccion para entrada de SOLO enteros. Solo entra al switch si no falla el cin.
+    if (!cin.fail())
+    {
+        switch(opcion)
+        {
+        case 0:
+            return false;
+            break;
+        case 1:
+            // insertar libreria (aleatorio o no?)
+            break;
+        case 2:
+            // borrar libreria
+            break;
+        case 3:
+            //mostrar libreria
+            break;
+        case 4:
+            //buscar un pedido por su ID
+            break;
+        case 5:
+            //borrar un pedido por su ID de la lista
+            break;
+        case 6:
+            //mover un pedido de una libreria a otra
+            break;
+        case 7:
+            //estadisticas
+            break;
+        case 8:
+            //generar pedidos de nuevo y repartir
+            break;
+        // caso de que no falle el cin (es un numero) pero no sea uno de los casos especificados
+        default:
+            cout <<"Opcion no valida, introduce un numero del 0 al 8"<<endl<<endl;
+            cin.clear();
+            cin.ignore(10000,'\n');
+            break;
+        }
+    }
 
+    //En caso de fallo del cin, se muestra un mensaje de error y se vuelve a pedir opcion.
+    else
+    {
+        cout <<"Opcion no valida, introduce un numero"<<endl<<endl;
+        cin.clear();
+        cin.ignore(10000, '\n');
+    }
     return true;
 }
 

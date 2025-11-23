@@ -129,6 +129,9 @@ class ArbolABB
         void auxAltura(NodoArb*, int);
 };
 
+//Inicio del programa (para que no se repita en cada iteracion del bucle principal)
+void inicioPrograma();
+
 //Loop principal del programa.
 bool loopPrincipal();
 
