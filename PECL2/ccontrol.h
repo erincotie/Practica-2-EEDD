@@ -139,6 +139,9 @@ void crearArbolGlobal();
 
 Libreria generarLibAleatoria();
 
+//Permite rellenar un arbol con librerias en sus nodos
+void generarArbolAleatorio(ArbolABB *abb);
+
 //Funciones para generar los pedidos de manera aleatoria (auxiliares para la funcion generar Pedido del main)
 //Genera un numero aleatorio entre un minimo y maximo
 int generarNumAleatorio(int minimo, int maximo);

@@ -247,7 +247,7 @@ void ArbolABB::auxAltura(NodoArb *nodo, int a)
 // Función de prueba para recorridos del árbol
 void Mostrar(Libreria l)
 {
-   cout <<"ID: " << l.id_libreria << "  Localidad: " << setw(12) << l.localidad<<" Num Pedidos: " << l.listaPedidos->contarPedidos()<< endl;
+   cout <<"ID: " << setw(3) <<l.id_libreria << "  Localidad: " << setw(12) << l.localidad<<" Num Pedidos: " << l.listaPedidos->contarPedidos()<< endl;
 }
 
 
@@ -434,6 +434,16 @@ bool loopPrincipal(){
     return true;
 }
 
+void generarArbolAleatorio(ArbolABB *abb){
+    introducirSeed();
+
+    for (int i = 0; i< N_LIBRERIAS; i++){
+        Libreria l = generarLibAleatoria();
+        abb->Insertar(l);
+    }
+
+}
+
 void generarPedidos(Lista *lista){
 
     introducirSeed();
@@ -449,6 +459,8 @@ void generarPedidos(Lista *lista){
         lista->insertarPedido(p);
     }
 }
+
+
 
 int generarNumAleatorio(int minimo, int maximo){
     return (rand() % (maximo-minimo) ) + minimo;
