@@ -11,7 +11,6 @@ ArbolABB *arbolGlobal;
 int *libIds = new int[100];
 int idsPointer = 0;
 
-//En lugar de arrays, podriamos usar una lista y añadir a la TAD lista el atributo "tamaño".
 #define NUM_LOCALIDADES 20
 string Localidades[NUM_LOCALIDADES] ={"Mostoles", "Alcala", "Leganes", "Fuenlabrada", "Getafe", "Alcorcon", "Torrejon", "Parla", "Alcobendas", "Coslada", "Pozuelo", "Rivas", "Valdemoro","Majadahonda", "Aranjuez", "Arganda", "Boadilla", "Pinto", "Colmenar", "Tres Cantos"};
 #define NUM_MATERIAS 6
@@ -19,27 +18,27 @@ string Materias[NUM_MATERIAS] = {"Matematicas", "Historia","Lengua", "Musica", "
 
 //Destructor
 ArbolABB::~ArbolABB()
-        {
-            Podar(raiz);
-        }
+{
+    Podar(raiz);
+}
 
 //Árbol vacío
 bool ArbolABB::Vacio(NodoArb *r)
-        {
-            return r==NULL;
-        }
+{
+    return r==NULL;
+}
 
 //NodoArb es de tipo hoja
 bool ArbolABB::EsHoja(NodoArb *r)
-        {
-            return !r->derecho && !r->izquierdo;
-        }
+{
+    return !r->derecho && !r->izquierdo;
+}
 
 //Coloca el nodo actual en raíz
 void ArbolABB::Raiz()
-        {
-            actual = raiz;
-        }
+{
+    actual = raiz;
+}
 
 // Poda: borrar todos los nodos a partir de uno incluido
 void ArbolABB::Podar(NodoArb* &nodo)
@@ -189,7 +188,7 @@ bool ArbolABB::Buscar(Libreria l)
    return false; // No está en árbol
 }
 
-Libreria* ArbolABB::BuscarPorId(int id)
+Libreria* ArbolABB::Buscar(int id)
 {
    actual = raiz;
 
@@ -267,7 +266,6 @@ void Mostrar(Libreria l)
    cout <<"ID: " << setw(3) <<l.id_libreria << "  Localidad: " << setw(12) << l.localidad<<" Num Pedidos: " << l.listaPedidos->contarPedidos()<< endl;
 }
 
-
 Lista::~Lista()
 {
     pnodo aux;
@@ -287,6 +285,7 @@ void Lista::insertarPedido(Pedido p) {
     {
         cabeza = new NodoLista(p, NULL);
         final=cabeza;
+        actual=cabeza;
     }
     else
     {
@@ -438,9 +437,9 @@ bool loopPrincipal(){
     cin.ignore();
 
     //Segundo paso: Repartir los pedidos y dar opciones al usuario.
-    //repartirPedidos(&ListaGlobal, &arbolGlobal);
-    //recorrerArbol e imprimir en formato
-    //arbolGlobal.Inorden(Mostrar());
+    repartirPedidos(listaGlobal, arbolGlobal);
+    cout << "Pedidos repartidos. Estado del arbol:" << endl;
+    arbolGlobal->InOrden(Mostrar);
 
 
     cout << "Opciones disponibles:" << endl
@@ -466,6 +465,18 @@ void generarArbolAleatorio(ArbolABB *abb){
         abb->Insertar(l);
     }
 
+}
+
+void repartirPedidos(Lista *lista, ArbolABB *arbol){
+    while(!lista->listaVacia()){
+        Pedido pedido = lista->valorActual();
+        Libreria *lib = arbol->Buscar(pedido.id_libreria);
+        if(lib){
+            lib->listaPedidos->insertarPedido(pedido);
+        }
+        lista->borrarPedido(pedido);
+        cout << "Pedido BORRADO: " << pedido.id_pedido << endl;
+    }
 }
 
 void generarPedidos(Lista *lista){

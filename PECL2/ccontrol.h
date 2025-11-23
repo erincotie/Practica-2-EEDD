@@ -105,7 +105,7 @@ class ArbolABB
         // Función de búsqueda:
         bool Buscar(Libreria l);
         //Devuelve un puntero a la libreria si está se encuentra en el árbol, por su ID
-        Libreria* BuscarPorId(int id);
+        Libreria* Buscar(int id);
         // Comprobar si el árbol está vacío:
         bool Vacio(NodoArb *r);
         // Comprobar si es un nodo hoja:
@@ -139,6 +139,9 @@ void mostrarCabecera();
 
 //Permite rellenar una lista con pedidos.
 void generarPedidos(Lista *lista);
+
+//Reparte los pedidos de la lista en el arbol. Vacia la lista en el proceso.
+void repartirPedidos(Lista *lista, ArbolABB *arbol);
 
 //Muestra por pantalla el contenido de una lista de pedidos.
 void mostrarLista(Lista *lista);
