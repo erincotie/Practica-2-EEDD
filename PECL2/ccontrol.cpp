@@ -1,3 +1,5 @@
+#include<iostream>
+#include <iomanip>
 #include "ccontrol.h"
 
 using namespace std;
@@ -245,7 +247,7 @@ void ArbolABB::auxAltura(NodoArb *nodo, int a)
 // Función de prueba para recorridos del árbol
 void Mostrar(Libreria l)
 {
-   cout << l.id_libreria << ":" << l.localidad<<" " << endl;
+   cout <<"ID: " << l.id_libreria << "  Localidad: " << setw(12) << l.localidad<<" Num Pedidos: " << l.listaPedidos->contarPedidos()<< endl;
 }
 
 
@@ -348,10 +350,24 @@ void Lista::recorrerLista()
 
     while(aux)
     {
-        cout << aux->valor.id_pedido << "-> ";
+        cout << aux->valor.id_pedido << "-> " <<endl;
         aux = aux->siguiente;
     }
     cout << endl;
+}
+
+int Lista::contarPedidos()
+{
+    pnodo aux;
+    aux = cabeza;
+    int cont =0;
+
+    while(aux)
+    {
+        cont ++;
+        aux = aux->siguiente;
+    }
+    return cont;
 }
 
 void introducirSeed()
@@ -397,17 +413,19 @@ bool loopPrincipal(){
 
     //Segundo paso: Repartir los pedidos y dar opciones al usuario.
     //repartirPedidos(&ListaGlobal, &arbolGlobal);
-    //mostrarIdentificadores();
+    //recorrerArbol e imprimir en formato
+    //arbolGlobal.Inorden(Mostrar());
+
 
     cout << "Opciones disponibles:" << endl
-    << "1- Insertar una libreria de forma manual. (NO IMPLEMENETADO)" << endl
-    << "2- Borrar una libreria del arbol. (NO IMPLEMENETADO)" << endl
-    << "3- Mostrar los datos de los pedidos de una libreria dada. (NO IMPLEMENETADO)" << endl
-    << "4- Buscar un pedido concreto por su ID. (NO IMPLEMENETADO)" << endl
-    << "5- Extraer un pedido concreto. (Eliminar). (NO IMPLEMENETADO)" << endl
-    << "6- Llevar un pedido concreto de una libreria a otra. (NO IMPLEMENETADO)" << endl
-    << "7- Mostrar una estadistica de las librerias. (NO IMPLEMENETADO)" << endl
-    << "8- Continuar con la distribucion de pedidos. (NO IMPLEMENETADO)" << endl
+    << "1- Insertar una libreria de forma manual. (NO IMPLEMENTADO)" << endl
+    << "2- Borrar una libreria del arbol. (NO IMPLEMENTADO)" << endl
+    << "3- Mostrar los datos de los pedidos de una libreria dada. (NO IMPLEMENTADO)" << endl
+    << "4- Buscar un pedido concreto por su ID. (NO IMPLEMENTADO)" << endl
+    << "5- Extraer un pedido concreto. (Eliminar). (NO IMPLEMENTADO)" << endl
+    << "6- Llevar un pedido concreto de una libreria a otra. (NO IMPLEMENTADO)" << endl
+    << "7- Mostrar una estadistica de las librerias. (NO IMPLEMENTADO)" << endl
+    << "8- Continuar con la distribucion de pedidos. (NO IMPLEMENTADO)" << endl
     << "0- Salir del programa" << endl;
 
     cout << "Seleccione una opcion del menu: " << endl;
@@ -417,14 +435,59 @@ bool loopPrincipal(){
 }
 
 void generarPedidos(Lista *lista){
+
+    introducirSeed();
+
+    for (int i =0; i< N_PEDIDOS; i++){
+        int idLib = 111;
+        string id_pedido = "P" + to_string(generarNumAleatorio(10000, 99999));
+        string cod_libro = generarCodigoLibro();
+        string materia = Materias[generarNumAleatorio(0, NUM_MATERIAS)];
+        int unidades = generarNumAleatorio(1,1000);
+        string fecha = to_string(generarNumAleatorio(1,30)) + "/" +to_string(generarNumAleatorio(1,12)) + "/2025";
+        Pedido p = {idLib, id_pedido,cod_libro,materia,unidades,fecha};
+        lista->insertarPedido(p);
+    }
 }
 
 int generarNumAleatorio(int minimo, int maximo){
     return (rand() % (maximo-minimo) ) + minimo;
 };
 
-char generarLetraMayusAleatoria();
+//Genera una letra mayuscula (A-Z).
+char generarLetraMayusAleatoria()
+{
+    //26->Diferencia entre A y Z.
+    //65->A en mayuscula.
+    return (char)(rand() % 26) + 65;
+}
 
-string generarCodigoLibro();
+//Genera el codigo del libro en formato NNNCNN (N: Cifra decimal, C: Caracter)
+string generarCodigoLibro()
+{
+    string nuevoCodigo;
 
-string generarCodigoPedido();
+    int primerNumero = generarNumAleatorio(100, 999);
+    nuevoCodigo += to_string(primerNumero);
+
+    char letra = generarLetraMayusAleatoria();
+    nuevoCodigo += letra;
+
+    int segundoNumero = generarNumAleatorio(10, 99);
+    nuevoCodigo += to_string(segundoNumero);
+
+    return nuevoCodigo;
+
+}
+
+//Genera el codigo del libro en formato 'P'NNNNN (N: Cifra decimal)
+string generarCodigoPedido()
+{
+    string nuevoCodigo = "P";
+
+    int numero = generarNumAleatorio(10000, 99999);
+    nuevoCodigo += to_string(numero);
+
+    return nuevoCodigo;
+
+}

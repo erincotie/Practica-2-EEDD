@@ -10,7 +10,6 @@ using namespace std;
 
 struct Pedido{
     int id_libreria;
-    int id_editorial;
     string id_pedido;
     string cod_libro;
     string materia;
@@ -57,6 +56,7 @@ public:
     bool esActual();
     Pedido valorActual();
     void recorrerLista();
+    int contarPedidos();
 
 };
 
