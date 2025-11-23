@@ -55,6 +55,7 @@ public:
     void esSiguiente();
     bool esActual();
     Pedido valorActual();
+    Pedido valorCabeza();
     void recorrerLista();
     int contarPedidos();
 

@@ -300,28 +300,29 @@ void Lista::borrarPedido(Pedido p) {
 
     if (cabeza == NULL) return;
     else{
-    actual = cabeza;
+        actual = cabeza;
 
-    while (actual->valor.id_pedido != p.id_pedido && (actual->siguiente)!=NULL)
-    {
-        anterior=actual;
-        actual=actual->siguiente;
-    }
-
-    if (actual->valor.id_pedido == p.id_pedido){ //comprobación de que está v en la lista
-        if(actual==cabeza)
-            cabeza = actual->siguiente;
-        else
+        while (actual->valor.id_pedido != p.id_pedido && (actual->siguiente)!=NULL)
         {
-            anterior->siguiente = actual->siguiente;
-            if (actual==final)
-            {
-                final=anterior;
-            }
+            anterior=actual;
+            actual=actual->siguiente;
         }
-        actual->siguiente=NULL;
-        delete actual;
-    }
+
+        if (actual->valor.id_pedido == p.id_pedido){ //comprobación de que está v en la lista
+            if(actual==cabeza) //si el que borramos es el primero en la lista, se modifica la cabeza
+                cabeza = actual->siguiente;
+            else
+            {
+                anterior->siguiente = actual->siguiente;
+                if (actual==final) // si es el ultimo el que borramos, se modifica el final
+                {
+                    final=anterior;
+                }
+            }
+            actual->siguiente=NULL;
+            delete actual;
+        }
+        else return;
     }
 }
 
@@ -356,6 +357,11 @@ bool Lista::esActual()
 Pedido Lista::valorActual()
 {
     return actual->valor;
+}
+
+Pedido Lista::valorCabeza()
+{
+    return cabeza->valor;
 }
 
 void Lista::recorrerLista()
@@ -469,7 +475,7 @@ void generarArbolAleatorio(ArbolABB *abb){
 
 void repartirPedidos(Lista *lista, ArbolABB *arbol){
     while(!lista->listaVacia()){
-        Pedido pedido = lista->valorActual();
+        Pedido pedido = lista->valorCabeza();
         Libreria *lib = arbol->Buscar(pedido.id_libreria);
         if(lib){
             lib->listaPedidos->insertarPedido(pedido);
