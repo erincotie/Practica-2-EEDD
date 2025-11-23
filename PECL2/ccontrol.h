@@ -129,6 +129,12 @@ class ArbolABB
 //Loop principal del programa.
 bool loopPrincipal();
 
+//Crear y mostrar arbol global.
+void inicializarABB();
+
+//Mostrar cabecera de datos.
+void mostrarCabecera();
+
 //Permite rellenar una lista con pedidos.
 void generarPedidos(Lista *lista);
 

@@ -4,8 +4,8 @@
 
 using namespace std;
 
-Lista listaGlobal;
-ArbolABB arbolGlobal;
+Lista *listaGlobal = new Lista();
+ArbolABB *arbolGlobal;
 
 //En lugar de arrays, podriamos usar una lista y añadir a la TAD lista el atributo "tamaño".
 #define NUM_LOCALIDADES 20
@@ -342,18 +342,29 @@ Pedido Lista::valorActual()
     return actual->valor;
 }
 
-
 void Lista::recorrerLista()
 {
+    if(this->listaVacia())
+    {
+        cout << "(vacia)" << endl;
+        return;
+    }
+
     pnodo aux;
     aux = cabeza;
 
+
     while(aux)
     {
-        cout << aux->valor.id_pedido << "-> " <<endl;
+        cout << setw(3) << aux->valor.id_libreria << "|"
+             << setw(8) << aux->valor.id_pedido   << "|"
+             << setw(8) << aux->valor.cod_libro   <<"|"
+             << setw(12)<< aux->valor.materia     <<"|"
+             << setw(3) << aux->valor.unidades    <<"|"
+             << setw(10)<< aux->valor.fecha       <<"|"
+             << endl;
         aux = aux->siguiente;
     }
-    cout << endl;
 }
 
 int Lista::contarPedidos()
@@ -377,22 +388,17 @@ void introducirSeed()
     srand(time(NULL));
 }
 
-void crearArbolGlobal(){
-    arbolGlobal = ArbolABB();
-    for(int i = 0; i < N_LIBRERIAS; i++){
-        arbolGlobal.Insertar(generarLibAleatoria());
-    };
-}
-
-void mostrarArbolGlobal(){
-    cout << "Pedidos repartidos. Estado del arbol:" << endl;
-
-}
-
 Libreria generarLibAleatoria(){
     Lista *libLista = new Lista();
     Libreria libreria = {generarNumAleatorio(0, 1000), Localidades[generarNumAleatorio(0, NUM_LOCALIDADES)], libLista};
     return libreria;
+}
+
+void mostrarCabecera(){
+    //cout << titulo << ":" << endl
+             cout << "--------------------------------------------------"<<endl
+             << " ID Libreria | ID Pedido | Cod. Libro | Materia | Unidades | Fecha |"<<endl
+             << "--------------------------------------------------"<<endl;
 }
 
 bool loopPrincipal(){
@@ -400,11 +406,9 @@ bool loopPrincipal(){
 
     //Primer paso: Generar pedidos nuevos.
     cout << "Creando los siguientes nuevos pedidos." << endl;
-    cout << endl;
-    cout << "ASTERISCO MOSTRAR PEDIDOS NUEVOS ASTERISCO" << endl;
-    cout << endl;
-    //generarPedidos(&listaGlobal);
-    //mostrarLista(&listaGlobal);
+    generarPedidos(listaGlobal);
+    mostrarCabecera();
+    listaGlobal->recorrerLista();
     cout << "<<< Presione cualquier tecla para continuar >>>" << endl;
 
     cin.get();
@@ -435,8 +439,6 @@ bool loopPrincipal(){
 }
 
 void generarArbolAleatorio(ArbolABB *abb){
-    introducirSeed();
-
     for (int i = 0; i< N_LIBRERIAS; i++){
         Libreria l = generarLibAleatoria();
         abb->Insertar(l);
@@ -445,22 +447,18 @@ void generarArbolAleatorio(ArbolABB *abb){
 }
 
 void generarPedidos(Lista *lista){
-
-    introducirSeed();
-
-    for (int i =0; i< N_PEDIDOS; i++){
-        int idLib = 111;
+    for (int i =0; i < N_PEDIDOS; i++){
+        //CAMBIAR
+        int idLib = generarNumAleatorio(0, 1000);
         string id_pedido = "P" + to_string(generarNumAleatorio(10000, 99999));
         string cod_libro = generarCodigoLibro();
         string materia = Materias[generarNumAleatorio(0, NUM_MATERIAS)];
         int unidades = generarNumAleatorio(1,1000);
-        string fecha = to_string(generarNumAleatorio(1,30)) + "/" +to_string(generarNumAleatorio(1,12)) + "/2025";
+        string fecha = to_string(generarNumAleatorio(1,30+1)) + "/" +to_string(generarNumAleatorio(1,12+1)) + "/2025";
         Pedido p = {idLib, id_pedido,cod_libro,materia,unidades,fecha};
         lista->insertarPedido(p);
     }
 }
-
-
 
 int generarNumAleatorio(int minimo, int maximo){
     return (rand() % (maximo-minimo) ) + minimo;
@@ -502,4 +500,14 @@ string generarCodigoPedido()
 
     return nuevoCodigo;
 
+}
+
+void inicializarABB(){
+    cout << "Creando el ABB con " << N_LIBRERIAS << " nodos:" << endl;
+
+    arbolGlobal = new ArbolABB();
+    generarArbolAleatorio(arbolGlobal);
+
+    cout << "Arbol vacio creado:" << endl;
+    arbolGlobal->InOrden(Mostrar);
 }
