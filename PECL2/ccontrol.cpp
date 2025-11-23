@@ -7,6 +7,10 @@ using namespace std;
 Lista *listaGlobal = new Lista();
 ArbolABB *arbolGlobal;
 
+//Solucion temporal
+int *libIds = new int[100];
+int idsPointer = 0;
+
 //En lugar de arrays, podriamos usar una lista y añadir a la TAD lista el atributo "tamaño".
 #define NUM_LOCALIDADES 20
 string Localidades[NUM_LOCALIDADES] ={"Mostoles", "Alcala", "Leganes", "Fuenlabrada", "Getafe", "Alcorcon", "Torrejon", "Parla", "Alcobendas", "Coslada", "Pozuelo", "Rivas", "Valdemoro","Majadahonda", "Aranjuez", "Arganda", "Boadilla", "Pinto", "Colmenar", "Tres Cantos"};
@@ -389,16 +393,20 @@ void introducirSeed()
 }
 
 Libreria generarLibAleatoria(){
+    int idLib = generarNumAleatorio(0, 1000);
+    //Solucion temporal horrible AQUI
+    libIds[idsPointer] = idLib;
+    idsPointer++;
     Lista *libLista = new Lista();
-    Libreria libreria = {generarNumAleatorio(0, 1000), Localidades[generarNumAleatorio(0, NUM_LOCALIDADES)], libLista};
+    Libreria libreria = {idLib, Localidades[generarNumAleatorio(0, NUM_LOCALIDADES)], libLista};
     return libreria;
 }
 
 void mostrarCabecera(){
     //cout << titulo << ":" << endl
-             cout << "--------------------------------------------------"<<endl
-             << " ID Libreria | ID Pedido | Cod. Libro | Materia | Unidades | Fecha |"<<endl
-             << "--------------------------------------------------"<<endl;
+             cout << "--------------------------------------------------------------------"<<endl
+             <<      "| ID Libreria | ID Pedido | Cod. Libro | Materia | Unidades | Fecha |"<<endl
+             <<      "--------------------------------------------------------------------"<<endl;
 }
 
 bool loopPrincipal(){
@@ -448,8 +456,7 @@ void generarArbolAleatorio(ArbolABB *abb){
 
 void generarPedidos(Lista *lista){
     for (int i =0; i < N_PEDIDOS; i++){
-        //CAMBIAR
-        int idLib = generarNumAleatorio(0, 1000);
+        int idLib = libIds[generarNumAleatorio(0, idsPointer)];
         string id_pedido = "P" + to_string(generarNumAleatorio(10000, 99999));
         string cod_libro = generarCodigoLibro();
         string materia = Materias[generarNumAleatorio(0, NUM_MATERIAS)];
