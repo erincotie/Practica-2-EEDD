@@ -59,6 +59,65 @@ void prepararPedidos(){
     arbolGlobal->InOrden(Mostrar);
 }
 
+void opcionInsertarLibreria(){
+    bool enProceso = true;
+    Libreria nuevaLib = {-1,"", nullptr};
+
+    cout << "Creando nueva libreria." << endl;
+    while(enProceso)
+    {
+        if(nuevaLib.id_libreria == -1)
+        {
+            int newID;
+            cout << "Introduce el ID: " << endl;
+            cin >> newID;
+            if(!cin.fail())
+            {
+                if(newID < 1000 || newID > 0)
+                {
+                    if(!arbolGlobal->Buscar(newID)){
+                        nuevaLib.id_libreria = newID;
+                        continue;
+                    }
+                    else{
+                        cout << "Error: El ID NO puede coincidir con uno ya existente en el arbol." << endl;
+                        cin.clear();
+                        cin.ignore(10000, '\n');
+                        continue;
+                    }
+                }
+                else{
+                    cout << "Error: El ID debe ser un numero entero de 3 cifras." << endl;
+                    cin.clear();
+                    cin.ignore(10000, '\n');
+                    continue;
+                }
+            }
+            else
+            {
+                cout << "Error: Introduce un entero como ID." << endl;
+                cin.clear();
+                cin.ignore(10000, '\n');
+                continue;
+            }
+        }
+
+        if(nuevaLib.localidad == "")
+        {
+            cout << "Introduce la localidad: " << endl;
+            cin >> nuevaLib.localidad;
+            continue;
+        }
+
+        else{
+            enProceso = false;
+        }
+    }
+    nuevaLib.listaPedidos = new Lista();
+    arbolGlobal->Insertar(nuevaLib);
+    arbolGlobal->InOrden(Mostrar);
+}
+
 void OpcionBorrarLibreria(int id){
     if(arbolGlobal->Buscar(id) == nullptr){
         cout << endl << "La libreria del ID especificado no existe." << endl;
@@ -109,11 +168,7 @@ bool loopPrincipal(){
             break;
         case 1:
             {
-                // insertar libreria (implementado aleatorio)
-                Libreria lNueva = generarLibAleatoria();
-                arbolGlobal->Insertar(lNueva);
-                arbolGlobal->InOrden(Mostrar);
-                cout << endl;
+                opcionInsertarLibreria();
                 break;
             }
         case 2:
@@ -202,7 +257,7 @@ void repartirPedidos(Lista *lista, ArbolABB *arbol){
 void generarPedidos(Lista *lista){
     for (int i =0; i < N_PEDIDOS; i++){
         int idLib = libIds[generarNumAleatorio(0, idsPointer)];
-        string id_pedido = "P" + to_string(generarNumAleatorio(10000, 99999));
+        string id_pedido = generarCodigoPedido();
         string cod_libro = generarCodigoLibro();
         string materia = Materias[generarNumAleatorio(0, NUM_MATERIAS)];
         int unidades = generarNumAleatorio(1,1000);
