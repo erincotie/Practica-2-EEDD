@@ -34,6 +34,7 @@
 		</Compiler>
 		<Unit filename="ccontrol.cpp" />
 		<Unit filename="ccontrol.h" />
+		<Unit filename="ccontrol_eedd.cpp" />
 		<Unit filename="main.cpp" />
 		<Extensions />
 	</Project>
