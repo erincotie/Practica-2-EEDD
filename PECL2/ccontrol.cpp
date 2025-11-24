@@ -452,14 +452,14 @@ bool loopPrincipal(){
     //Opciones del menú
 
     cout << "Opciones disponibles:" << endl
-    << "1- Insertar una libreria de forma manual. (NO IMPLEMENTADO)" << endl
+    << "1- Insertar una libreria de forma manual." << endl //(IMPLEMENTADO AÑADIENDO UNA LIBRERIA ALEATORIA)
     << "2- Borrar una libreria del arbol. (NO IMPLEMENTADO)" << endl
     << "3- Mostrar los datos de los pedidos de una libreria dada. (NO IMPLEMENTADO)" << endl
     << "4- Buscar un pedido concreto por su ID. (NO IMPLEMENTADO)" << endl
     << "5- Extraer un pedido concreto. (Eliminar). (NO IMPLEMENTADO)" << endl
     << "6- Llevar un pedido concreto de una libreria a otra. (NO IMPLEMENTADO)" << endl
     << "7- Mostrar una estadistica de las librerias. (NO IMPLEMENTADO)" << endl
-    << "8- Continuar con la distribucion de pedidos. (NO IMPLEMENTADO)" << endl
+    << "8- Continuar con la distribucion de pedidos." << endl
     << "0- Salir del programa" << endl;
 
     cout << "Seleccione una opcion del menu: " << endl;
@@ -474,8 +474,14 @@ bool loopPrincipal(){
             return false;
             break;
         case 1:
-            // insertar libreria (aleatorio o no?)
-            break;
+            {
+                // insertar libreria (implementado aleatorio)
+                Libreria lNueva = generarLibAleatoria();
+                arbolGlobal->Insertar(lNueva);
+                arbolGlobal->InOrden(Mostrar);
+                cout << endl;
+                break;
+            }
         case 2:
             // borrar libreria
             break;
@@ -496,6 +502,7 @@ bool loopPrincipal(){
             break;
         case 8:
             //generar pedidos de nuevo y repartir
+            inicioPrograma();
             break;
         // caso de que no falle el cin (es un numero) pero no sea uno de los casos especificados
         default:
