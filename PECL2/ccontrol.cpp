@@ -59,6 +59,12 @@ void inicioPrograma(){
     arbolGlobal->InOrden(Mostrar);
 }
 
+void OpcionBorrarLibreria(int id){
+    cout <<endl<< "Borrando la libreria con ID: "<< id<<endl<<endl;
+    arbolGlobal->BorrarPorId(id);
+    arbolGlobal->InOrden(Mostrar);
+}
+
 bool loopPrincipal(){
 
     //Opciones del menú
@@ -95,8 +101,20 @@ bool loopPrincipal(){
                 break;
             }
         case 2:
-            // borrar libreria
-            break;
+            {
+               // borrar libreria
+                cout <<endl<<"Introduzca el ID de libreria que desea borrar: " <<endl;
+                int id;
+                cin >> id;
+                if(!cin.fail()){
+                    OpcionBorrarLibreria(id);
+                } else{
+                    cout <<"Introduzca un numero entero"<<endl<<endl;
+                    cin.clear();
+                    cin.ignore(10000, '\n');
+                }
+                break;
+            }
         case 3:
             //mostrar libreria
             break;

@@ -103,6 +103,8 @@ class ArbolABB
         void Insertar(Libreria l);
         // Borrar un elemento del árbol:
         void Borrar(Libreria l);
+        //Borrar una libreria a través de su ID:
+        void BorrarPorId(int id);
         // Función de búsqueda:
         bool Buscar(Libreria l);
         //Devuelve un puntero a la libreria si está se encuentra en el árbol, por su ID

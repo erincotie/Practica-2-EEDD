@@ -126,6 +126,65 @@ void ArbolABB::Borrar(Libreria l)
    }
 }
 
+void ArbolABB::BorrarPorId(int id_libreria)
+{
+   NodoArb *padre = NULL;
+   NodoArb *nodo;
+   Libreria aux;
+
+   actual = raiz;
+   // Mientras sea posible que el valor esté en el árbol
+   while(!Vacio(actual)) {
+      if(id_libreria == actual->dato.id_libreria) { // Si el valor está en el nodo actual
+         if(EsHoja(actual)) { // Y si además es un nodo hoja: lo borramos
+            if(padre){ // Si tiene padre (no es el nodo raiz)
+               // Anulamos el puntero que le hace referencia
+               if(padre->derecho == actual) padre->derecho = NULL;
+               else if(padre->izquierdo == actual) padre->izquierdo = NULL;
+            }
+            else raiz=NULL;
+
+            delete actual; // Borrar el nodo
+            actual = NULL;
+            return;
+         }
+         else { // Si el valor está en el nodo actual, pero no es hoja
+            // Buscar nodo
+            padre = actual;
+            // Buscar nodo más izquierdo de rama derecha
+            if(actual->derecho) {
+               nodo = actual->derecho;
+               while(nodo->izquierdo) {
+                  padre = nodo;
+                  nodo = nodo->izquierdo;
+               }
+            }
+            // O buscar nodo más derecho de rama izquierda
+            else {
+               nodo = actual->izquierdo;
+               while(nodo->derecho) {
+                  padre = nodo;
+                  nodo = nodo->derecho;
+               }
+            }
+            // Intercambiar valores de no a borrar u nodo encontrado
+            // y continuar, cerrando el bucle. El nodo encontrado no tiene
+            // por qué ser un nodo hoja, cerrando el bucle nos aseguramos
+            // de que sólo se eliminan nodos hoja.
+            aux = actual->dato;
+            actual->dato = nodo->dato;
+            nodo->dato = aux;
+            actual = nodo;
+         }
+      }
+      else { // Todavía no hemos encontrado el valor, seguir buscándolo
+         padre = actual;
+         if(id_libreria > actual->dato.id_libreria) actual = actual->derecho;
+         else if(id_libreria < actual->dato.id_libreria) actual = actual->izquierdo;
+      }
+   }
+}
+
 // Recorrido de árbol en inorden, aplicamos la función func, que tiene
 // el prototipo:
 // void func(int&);
