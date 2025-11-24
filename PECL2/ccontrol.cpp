@@ -196,8 +196,8 @@ void opcionMoverPedido(){
         cin >> libID;
         if(!cin.fail())
         {
-            Libreria *libID = arbolGlobal.Buscar(libID);
-            if(libID){
+            Libreria *lib = arbolGlobal->Buscar(libID);
+            if(lib){
                 cout << "Moviendo pedido en arbol..." << endl;
             }
             else{

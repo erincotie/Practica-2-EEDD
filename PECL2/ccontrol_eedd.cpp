@@ -248,6 +248,19 @@ Libreria* ArbolABB::Buscar(int id)
    return nullptr; // No está en árbol
 }
 
+//Terminar función que para cada nodo en el arbol, utiliza la función buscarPedido de Lista para encontrar un pedido.
+Pedido* ArbolABB::Buscar(string id_p)
+{
+   actual = raiz;
+   Pedido* p = nullptr;
+
+   // Todavía puede aparecer, ya que quedan nodos por mirar
+   while(!Vacio(actual) || p == nullptr) {
+        Pedido* p = actual->dato.listaPedidos->buscarPedido(id_p);
+   }
+   return p; // No está en árbol
+}
+
 // Calcular la altura del nodo que contiene el int dat
 int ArbolABB::Altura(Libreria l)
 {
@@ -373,6 +386,55 @@ void Lista::borrarPedido(Pedido p) {
     }
 }
 
+
+void Lista::borrarPedido(string id_p) {
+    pnodo anterior;
+
+    if (cabeza == NULL) return;
+    else{
+        actual = cabeza;
+
+        while (actual->valor.id_pedido != id_p && (actual->siguiente)!=NULL)
+        {
+            anterior=actual;
+            actual=actual->siguiente;
+        }
+
+        if (actual->valor.id_pedido == id_p){ //comprobación de que está v en la lista
+            if(actual==cabeza) //si el que borramos es el primero en la lista, se modifica la cabeza
+                cabeza = actual->siguiente;
+            else
+            {
+                anterior->siguiente = actual->siguiente;
+                if (actual==final) // si es el ultimo el que borramos, se modifica el final
+                {
+                    final=anterior;
+                }
+            }
+            actual->siguiente=NULL;
+            delete actual;
+        }
+        else return;
+    }
+}
+
+Pedido* Lista::buscarPedido(string id_p) {
+
+    if (cabeza == NULL) return nullptr;
+    else{
+        actual = cabeza;
+
+        while (actual->valor.id_pedido != id_p && (actual->siguiente)!=NULL)
+        {
+            actual=actual->siguiente;
+        }
+
+        if (actual->valor.id_pedido == id_p){ //comprobación de que está v en la lista
+            return &actual->valor;
+        }
+        else return nullptr;
+    }
+}
 
 bool Lista::listaVacia(){
     return cabeza == NULL;
