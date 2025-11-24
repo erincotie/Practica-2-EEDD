@@ -33,8 +33,6 @@ public:
 };
 typedef NodoLista *pnodo;
 
-
-
 class Lista
 {
 private:
@@ -61,14 +59,11 @@ public:
 
 };
 
-
 struct Libreria{
     int id_libreria;
     string localidad;
     Lista* listaPedidos;
 };
-
-void Mostrar(Libreria l);
 
 class NodoArb
 {
@@ -104,10 +99,10 @@ class ArbolABB
         // Borrar un elemento del árbol:
         void Borrar(Libreria l);
         //Borrar una libreria a través de su ID:
-        void BorrarPorId(int id);
+        void Borrar(int id);
         // Función de búsqueda:
         bool Buscar(Libreria l);
-        //Devuelve un puntero a la libreria si está se encuentra en el árbol, por su ID
+        //Devuelve un puntero a la libreria si está se encuentra en el árbol, por su ID.
         Libreria* Buscar(int id);
         // Comprobar si el árbol está vacío:
         bool Vacio(NodoArb *r);
@@ -131,8 +126,10 @@ class ArbolABB
         void auxAltura(NodoArb*, int);
 };
 
-//Inicio del programa (para que no se repita en cada iteracion del bucle principal)
-void inicioPrograma();
+void Mostrar(Libreria l);
+
+//Preparacion de pedidos que se muestran por pantalla y se preparan. Se usa al inicio del programa.
+void prepararPedidos();
 
 //Loop principal del programa.
 bool loopPrincipal();

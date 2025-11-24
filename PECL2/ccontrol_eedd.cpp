@@ -126,7 +126,7 @@ void ArbolABB::Borrar(Libreria l)
    }
 }
 
-void ArbolABB::BorrarPorId(int id_libreria)
+void ArbolABB::Borrar(int id_libreria)
 {
    NodoArb *padre = NULL;
    NodoArb *nodo;

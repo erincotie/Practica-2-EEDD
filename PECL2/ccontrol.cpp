@@ -40,7 +40,7 @@ void mostrarCabecera(){
              <<      "---------------------------------------------------------------------------"<<endl;
 }
 
-void inicioPrograma(){
+void prepararPedidos(){
 
     //Primer paso: Generar pedidos nuevos.
     cout << "Creando los siguientes nuevos pedidos." << endl;
@@ -60,8 +60,13 @@ void inicioPrograma(){
 }
 
 void OpcionBorrarLibreria(int id){
-    cout <<endl<< "Borrando la libreria con ID: "<< id<<endl<<endl;
-    arbolGlobal->BorrarPorId(id);
+    if(arbolGlobal->Buscar(id) == nullptr){
+        cout << endl << "La libreria del ID especificado no existe." << endl;
+    }
+    else{
+        cout << endl<< "Borrando la libreria con ID: "<< id << endl;
+        arbolGlobal->Borrar(id);
+    }
     arbolGlobal->InOrden(Mostrar);
 }
 
@@ -153,7 +158,7 @@ bool loopPrincipal(){
             break;
         case 8:
             //generar pedidos de nuevo y repartir
-            inicioPrograma();
+            prepararPedidos();
             break;
         // caso de que no falle el cin (es un numero) pero no sea uno de los casos especificados
         default:
