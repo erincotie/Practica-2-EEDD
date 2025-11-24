@@ -59,6 +59,7 @@ void prepararPedidos(){
     arbolGlobal->InOrden(Mostrar);
 }
 
+//Considerar añadir una opcion para cancelar y volver al menu.
 void opcionInsertarLibreria(){
     bool enProceso = true;
     Libreria nuevaLib = {-1,"", nullptr};
@@ -140,6 +141,35 @@ void OpcionMostrarPedidos(int id){
     }
 }
 
+bool esCodigoPedido(string codigo){
+    if(codigo.size() > 6) return false;
+    if(codigo.size() < 5) return false;
+    if(codigo.size() == 6){
+        if(codigo.at(0) != 'P' && codigo.at(0) != 'p') return false;
+
+        else codigo.erase(0,1);
+    }
+
+    for(int i = 0; i < codigo.size(); i++){
+        if(codigo.at(i) < 48 || codigo.at(i) > 57) return false;
+    }
+
+    return true;
+}
+
+void opcionBuscarPedido(){
+    string id;
+    cout <<"Introduzca el ID del pedido que desea mostrar: " << endl;
+    cin >> id;
+    if(esCodigoPedido(id)){
+        //Funcion para buscar pedido por ID.
+        cout << "Buscando pedido en arbol..."
+    }
+    else {
+        cout << "El codigo introducido no corresponde a un codigo real." << endl;
+    }
+}
+
 bool loopPrincipal(){
 
     //Opciones del menú
@@ -200,7 +230,7 @@ bool loopPrincipal(){
                 }
             break;
         case 4:
-            //buscar un pedido por su ID
+            opcionBuscarPedido();
             break;
         case 5:
             //borrar un pedido por su ID de la lista
