@@ -163,7 +163,53 @@ void opcionBuscarPedido(){
     cin >> id;
     if(esCodigoPedido(id)){
         //Funcion para buscar pedido por ID.
-        cout << "Buscando pedido en arbol..."
+        cout << "Buscando pedido en arbol..." << endl;
+    }
+    else {
+        cout << "El codigo introducido no corresponde a un codigo real." << endl;
+    }
+}
+
+void opcionBorrarPedido(){
+    string id;
+    cout <<"Introduzca el ID del pedido que desea borrar: " << endl;
+    cin >> id;
+    if(esCodigoPedido(id)){
+        //Funcion para borrar pedido por ID.
+        cout << "Borrando pedido en arbol..." << endl;
+    }
+    else {
+        cout << "El codigo introducido no corresponde a un codigo real." << endl;
+    }
+}
+
+void opcionMoverPedido(){
+    string id;
+    cout <<"Introduzca el ID del pedido que desea mover: " << endl;
+    cin >> id;
+    if(esCodigoPedido(id)){
+        //Aqui se buscaria el pedido, y en caso de encontrarlo se guardaria para ponerlo despues.
+
+
+        cout << "Introduzca el ID de la libreria donde lo quiere guardar: " <<endl;
+        int libID;
+        cin >> libID;
+        if(!cin.fail())
+        {
+            Libreria *libID = arbolGlobal.Buscar(libID);
+            if(libID){
+                cout << "Moviendo pedido en arbol..." << endl;
+            }
+            else{
+                cout <<"Error: La biblioteca buscada no existe." <<endl;
+            }
+        }
+        else
+        {
+            cout <<"Error: El ID debe ser un numero entero"<<endl<<endl;
+            cin.clear();
+            cin.ignore(10000, '\n');
+        }
     }
     else {
         cout << "El codigo introducido no corresponde a un codigo real." << endl;
@@ -175,12 +221,12 @@ bool loopPrincipal(){
     //Opciones del menú
 
     cout << "Opciones disponibles:" << endl
-    << "1- Insertar una libreria de forma manual." << endl //(IMPLEMENTADO AÑADIENDO UNA LIBRERIA ALEATORIA)
+    << "1- Insertar una libreria de forma manual." << endl
     << "2- Borrar una libreria del arbol." << endl
-    << "3- Mostrar los datos de los pedidos de una libreria dada. (NO IMPLEMENTADO)" << endl
-    << "4- Buscar un pedido concreto por su ID. (NO IMPLEMENTADO)" << endl
-    << "5- Extraer un pedido concreto. (Eliminar). (NO IMPLEMENTADO)" << endl
-    << "6- Llevar un pedido concreto de una libreria a otra. (NO IMPLEMENTADO)" << endl
+    << "3- Mostrar los datos de los pedidos de una libreria dada." << endl
+    << "4- Buscar un pedido concreto por su ID. (EN DESARROLLO)" << endl
+    << "5- Extraer un pedido concreto. (Eliminar). (EN DESARROLLO)" << endl
+    << "6- Llevar un pedido concreto de una libreria a otra. (EN DESARROLLO)" << endl
     << "7- Mostrar una estadistica de las librerias. (NO IMPLEMENTADO)" << endl
     << "8- Continuar con la distribucion de pedidos." << endl
     << "0- Salir del programa" << endl;
@@ -233,10 +279,11 @@ bool loopPrincipal(){
             opcionBuscarPedido();
             break;
         case 5:
-            //borrar un pedido por su ID de la lista
+            opcionBorrarPedido();
             break;
         case 6:
             //mover un pedido de una libreria a otra
+            opcionMoverPedido();
             break;
         case 7:
             //estadisticas
@@ -280,7 +327,6 @@ void repartirPedidos(Lista *lista, ArbolABB *arbol){
             lib->listaPedidos->insertarPedido(pedido);
         }
         lista->borrarPedido(pedido);
-        cout << "Pedido BORRADO: " << pedido.id_pedido << endl;
     }
 }
 
