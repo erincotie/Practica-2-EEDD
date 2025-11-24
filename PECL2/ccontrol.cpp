@@ -65,13 +65,24 @@ void OpcionBorrarLibreria(int id){
     arbolGlobal->InOrden(Mostrar);
 }
 
+void OpcionMostrarPedidos(int id){
+    Libreria* l = arbolGlobal->Buscar(id);
+    if(l != nullptr){
+        mostrarCabecera();
+        l->listaPedidos->recorrerLista();
+        cout << endl << endl;
+    } else{
+        cout <<endl <<"Libreria incorrecta, no existe en el sistema"<<endl<<endl;
+    }
+}
+
 bool loopPrincipal(){
 
     //Opciones del menú
 
     cout << "Opciones disponibles:" << endl
     << "1- Insertar una libreria de forma manual." << endl //(IMPLEMENTADO AÑADIENDO UNA LIBRERIA ALEATORIA)
-    << "2- Borrar una libreria del arbol. (NO IMPLEMENTADO)" << endl
+    << "2- Borrar una libreria del arbol." << endl
     << "3- Mostrar los datos de los pedidos de una libreria dada. (NO IMPLEMENTADO)" << endl
     << "4- Buscar un pedido concreto por su ID. (NO IMPLEMENTADO)" << endl
     << "5- Extraer un pedido concreto. (Eliminar). (NO IMPLEMENTADO)" << endl
@@ -117,6 +128,16 @@ bool loopPrincipal(){
             }
         case 3:
             //mostrar libreria
+            cout <<endl<<"Introduzca el ID de libreria que desea mostrar: " <<endl;
+                int id;
+                cin >> id;
+                if(!cin.fail()){
+                    OpcionMostrarPedidos(id);
+                } else{
+                    cout <<"Introduzca un numero entero"<<endl<<endl;
+                    cin.clear();
+                    cin.ignore(10000, '\n');
+                }
             break;
         case 4:
             //buscar un pedido por su ID
