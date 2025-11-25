@@ -509,3 +509,17 @@ int Lista::contarPedidos()
     }
     return cont;
 }
+
+int Lista::sumarUnidades()
+{
+    pnodo aux;
+    aux = cabeza;
+    int cont =0;
+
+    while(aux)
+    {
+        cont += aux->valor.unidades;
+        aux = aux->siguiente;
+    }
+    return cont;
+}

@@ -250,12 +250,30 @@ void opcionMoverPedido(){
     }
 }
 
-void opcionEstadistica(){
-    //Estadistica: Top 5 librerias con mas pedidos.
+void estadisticaTopLibreriasPedidos(Libreria lib){
+    int numPedidos = lib.listaPedidos->contarPedidos();
+    int sumUnidades = lib.listaPedidos->sumarUnidades();
+    float media = sumUnidades/numPedidos;
+    cout << "Estadisticas de la libreria con ID: " << lib.id_libreria << endl;
+    cout<<"----------------------------------------------------------------------------------------"<<endl
+        <<"| ID Libreria | Num Pedidos | Uds/Pedido | Materia mas popular | Materia menos popular |"<<endl
+        <<"----------------------------------------------------------------------------------------"<<endl
+        << "|  "
+        << setw(11) << lib.id_libreria << "|"
+        << setw(13) << numPedidos   << "|"
+        << setw(12) << media   <<"|"
+        << endl<<endl;
+
 }
 
-void estadisticaTopLibreriasPedidos(){
+void opcionEstadistica(){
+    /*
+      Estadistica: Top 5 librerias con mas pedidos, en cada una de ellas decir la media de unidades por pedido,
+      la materia mas / menos popular.
+    */
+    arbolGlobal->InOrden(estadisticaTopLibreriasPedidos);
 }
+
 
 bool loopPrincipal(){
 
@@ -268,7 +286,7 @@ bool loopPrincipal(){
     << "4- Buscar un pedido concreto por su ID." << endl
     << "5- Extraer un pedido concreto. (Eliminar)." << endl
     << "6- Llevar un pedido concreto de una libreria a otra. (EN DESARROLLO)" << endl
-    << "7- Mostrar una estadistica de las librerias. (NO IMPLEMENTADO)" << endl
+    << "7- Mostrar una estadistica de las librerias. (EN DESARROLLO)" << endl
     << "8- Continuar con la distribucion de pedidos." << endl
     << "0- Salir del programa" << endl;
 
@@ -323,14 +341,13 @@ bool loopPrincipal(){
             opcionBorrarPedido();
             break;
         case 6:
-            //mover un pedido de una libreria a otra
             opcionMoverPedido();
             break;
         case 7:
             //estadisticas
+            opcionEstadistica();
             break;
         case 8:
-            //generar pedidos de nuevo y repartir
             prepararPedidos();
             break;
         // caso de que no falle el cin (es un numero) pero no sea uno de los casos especificados

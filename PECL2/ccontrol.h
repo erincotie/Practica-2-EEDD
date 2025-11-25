@@ -49,7 +49,6 @@ public:
     void borrarPedido(Pedido p);
     void borrarPedido(string id_p);
     Pedido* buscarPedido(string id_p);
-    bool estaEnLista(string id_p);
     bool listaVacia();
     void esCabeza();
     void esFinal();
@@ -59,6 +58,7 @@ public:
     Pedido valorCabeza();
     void recorrerLista();
     int contarPedidos();
+    int sumarUnidades();
 
 };
 
