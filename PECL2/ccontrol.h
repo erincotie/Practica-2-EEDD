@@ -122,6 +122,7 @@ class ArbolABB
         void Raiz();
         // Aplicar una función a cada elemento del árbol:
         void InOrden(void (*func)(Libreria), NodoArb *nodo=NULL, bool r=true);
+        void InOrden(void (*func)(Libreria, string), string busquedaParam, NodoArb *nodo=NULL, bool r=true);
         void PreOrden(void (*func)(Libreria), NodoArb *nodo=NULL, bool r=true);
         void PostOrden(void (*func)(Libreria), NodoArb *nodo=NULL, bool r=true);
     private:

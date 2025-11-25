@@ -23,6 +23,13 @@ void introducirSeed()
     srand(time(NULL));
 }
 
+void mostrarCabecera(){
+    //cout << titulo << ":" << endl
+             cout << "---------------------------------------------------------------------------"<<endl
+             <<      "| ID Libreria | ID Pedido | Cod. Libro |   Materia  | Unidades |   Fecha   |"<<endl
+             <<      "---------------------------------------------------------------------------"<<endl;
+}
+
 Libreria generarLibAleatoria(){
     int idLib = generarNumAleatorio(0, 1000);
     //Solucion temporal horrible AQUI
@@ -31,13 +38,6 @@ Libreria generarLibAleatoria(){
     Lista *libLista = new Lista();
     Libreria libreria = {idLib, Localidades[generarNumAleatorio(0, NUM_LOCALIDADES)], libLista};
     return libreria;
-}
-
-void mostrarCabecera(){
-    //cout << titulo << ":" << endl
-             cout << "---------------------------------------------------------------------------"<<endl
-             <<      "| ID Libreria | ID Pedido | Cod. Libro |   Materia  | Unidades |   Fecha   |"<<endl
-             <<      "---------------------------------------------------------------------------"<<endl;
 }
 
 void prepararPedidos(){
@@ -157,6 +157,13 @@ bool esCodigoPedido(string codigo){
     return true;
 }
 
+void buscarPorPedidoID(Libreria lib, string codigo){
+    Pedido* p = lib.listaPedidos->buscarPedido(codigo);
+    if(p){
+        cout << p->cod_libro << p->id_libreria << p->materia << endl;
+    }
+}
+
 void opcionBuscarPedido(){
     string id;
     cout <<"Introduzca el ID del pedido que desea mostrar: " << endl;
@@ -164,6 +171,8 @@ void opcionBuscarPedido(){
     if(esCodigoPedido(id)){
         //Funcion para buscar pedido por ID.
         cout << "Buscando pedido en arbol..." << endl;
+        arbolGlobal->InOrden(buscarPorPedidoID, id);
+
     }
     else {
         cout << "El codigo introducido no corresponde a un codigo real." << endl;
@@ -214,6 +223,13 @@ void opcionMoverPedido(){
     else {
         cout << "El codigo introducido no corresponde a un codigo real." << endl;
     }
+}
+
+void opcionEstadistica(){
+    //Estadistica: Top 5 librerias con mas pedidos.
+}
+
+void estadisticaTopLibreriasPedidos(){
 }
 
 bool loopPrincipal(){
