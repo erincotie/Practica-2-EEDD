@@ -49,6 +49,7 @@ public:
     void borrarPedido(Pedido p);
     void borrarPedido(string id_p);
     Pedido* buscarPedido(string id_p);
+    bool estaEnLista(string id_p);
     bool listaVacia();
     void esCabeza();
     void esFinal();
@@ -107,7 +108,7 @@ class ArbolABB
         //Devuelve un puntero a la libreria si está se encuentra en el árbol, por su ID.
         Libreria* Buscar(int id);
         //Busca un pedido dentro de todas las librerias
-        Pedido* Buscar(string id_p);
+        Pedido* BusquedaInOrden(bool (*func)(string id_p) , NodoArb *nodo, bool r);
         // Comprobar si el árbol está vacío:
         bool Vacio(NodoArb *r);
         // Comprobar si es un nodo hoja:

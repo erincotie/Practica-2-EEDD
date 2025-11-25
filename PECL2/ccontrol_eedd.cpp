@@ -197,6 +197,36 @@ void ArbolABB::InOrden(void (*func)(Libreria) , NodoArb *nodo, bool r)
    if(nodo->derecho) InOrden(func, nodo->derecho, false);
 }
 
+//funcion auxiliar que diga si un pedido está en la lista de la libreria
+bool Lista::estaEnLista(string id_p){
+    if (cabeza == NULL) return false;
+    else{
+        actual = cabeza;
+
+        while (actual->valor.id_pedido != id_p && (actual->siguiente)!=NULL)
+        {
+            actual=actual->siguiente;
+        }
+
+        if (actual->valor.id_pedido == id_p){ //comprobación de que está v en la lista
+            return true;
+        }
+        else return false;
+    }
+}
+
+
+Pedido* ArbolABB::BusquedaInOrden(bool (*func)(string) , NodoArb *nodo, bool r)
+{
+  if (raiz==NULL) {cout<<"Arbol vacio"<<endl; return nullptr;}
+   if (nodo->dato.listaPedidos->func(id_p)) return nodo->dato.listaPedidos->buscarPedido(id_p);
+   else{
+       if(r) nodo = raiz;
+       if(nodo->izquierdo) InOrden(func, nodo->izquierdo, false);
+       if(nodo->derecho) InOrden(func, nodo->derecho, false);
+   }
+}
+
 // Recorrido de árbol en preorden, aplicamos la función func, que tiene
 // el prototipo:
 // void func(int&);
@@ -248,7 +278,7 @@ Libreria* ArbolABB::Buscar(int id)
    return nullptr; // No está en árbol
 }
 
-//Terminar función que para cada nodo en el arbol, utiliza la función buscarPedido de Lista para encontrar un pedido.
+/*Terminar función que para cada nodo en el arbol, utiliza la función buscarPedido de Lista para encontrar un pedido.
 Pedido* ArbolABB::Buscar(string id_p)
 {
    actual = raiz;
@@ -259,7 +289,7 @@ Pedido* ArbolABB::Buscar(string id_p)
         Pedido* p = actual->dato.listaPedidos->buscarPedido(id_p);
    }
    return p; // No está en árbol
-}
+}*/
 
 // Calcular la altura del nodo que contiene el int dat
 int ArbolABB::Altura(Libreria l)
