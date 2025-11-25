@@ -141,18 +141,19 @@ void OpcionMostrarPedidos(int id){
     }
 }
 
-bool esCodigoPedido(string codigo){
-    if(codigo.size() > 6) return false;
-    if(codigo.size() < 5) return false;
-    if(codigo.size() == 6){
-        if(codigo.at(0) != 'P' && codigo.at(0) != 'p') return false;
+bool esCodigoPedido(string *codigo){
+    if(codigo->size() > 6) return false;
+    if(codigo->size() < 5) return false;
+    if(codigo->size() == 6){
+        if(codigo->at(0) != 'P' && codigo->at(0) != 'p') return false;
 
-        else codigo.erase(0,1);
+        else codigo->erase(0,1);
     }
 
-    for(int i = 0; i < codigo.size(); i++){
-        if(codigo.at(i) < 48 || codigo.at(i) > 57) return false;
+    for(int i = 0; i < codigo->size(); i++){
+        if(codigo->at(i) < 48 || codigo->at(i) > 57) return false;
     }
+    codigo->insert(0, "P");
 
     return true;
 }
@@ -160,6 +161,7 @@ bool esCodigoPedido(string codigo){
 void buscarPorPedidoID(Libreria lib, string codigo){
     Pedido* p = lib.listaPedidos->buscarPedido(codigo);
     if(p){
+        mostrarCabecera();
         cout << "|  "
              << setw(11) << p->id_libreria << "|"
              << setw(11) << p->id_pedido   << "|"
@@ -171,11 +173,19 @@ void buscarPorPedidoID(Libreria lib, string codigo){
     }
 }
 
+void borrarPorPedidoID(Libreria lib, string codigo){
+    if(lib.listaPedidos->buscarPedido(codigo)){
+        lib.listaPedidos->borrarPedido(codigo);
+        mostrarCabecera();
+        lib.listaPedidos->recorrerLista();
+    }
+}
+
 void opcionBuscarPedido(){
     string id;
     cout <<"Introduzca el ID del pedido que desea mostrar: " << endl;
     cin >> id;
-    if(esCodigoPedido(id)){
+    if(esCodigoPedido(&id)){
         //Funcion para buscar pedido por ID.
         cout << "Buscando pedido en arbol..." << endl;
         arbolGlobal->InOrden(buscarPorPedidoID, id);
@@ -190,9 +200,10 @@ void opcionBorrarPedido(){
     string id;
     cout <<"Introduzca el ID del pedido que desea borrar: " << endl;
     cin >> id;
-    if(esCodigoPedido(id)){
+    if(esCodigoPedido(&id)){
         //Funcion para borrar pedido por ID.
         cout << "Borrando pedido en arbol..." << endl;
+        arbolGlobal->InOrden(borrarPorPedidoID, id);
     }
     else {
         cout << "El codigo introducido no corresponde a un codigo real." << endl;
@@ -203,7 +214,7 @@ void opcionMoverPedido(){
     string id;
     cout <<"Introduzca el ID del pedido que desea mover: " << endl;
     cin >> id;
-    if(esCodigoPedido(id)){
+    if(esCodigoPedido(&id)){
         //Aqui se buscaria el pedido, y en caso de encontrarlo se guardaria para ponerlo despues.
 
 
@@ -247,8 +258,8 @@ bool loopPrincipal(){
     << "1- Insertar una libreria de forma manual." << endl
     << "2- Borrar una libreria del arbol." << endl
     << "3- Mostrar los datos de los pedidos de una libreria dada." << endl
-    << "4- Buscar un pedido concreto por su ID. (EN DESARROLLO)" << endl
-    << "5- Extraer un pedido concreto. (Eliminar). (EN DESARROLLO)" << endl
+    << "4- Buscar un pedido concreto por su ID." << endl
+    << "5- Extraer un pedido concreto. (Eliminar)." << endl
     << "6- Llevar un pedido concreto de una libreria a otra. (EN DESARROLLO)" << endl
     << "7- Mostrar una estadistica de las librerias. (NO IMPLEMENTADO)" << endl
     << "8- Continuar con la distribucion de pedidos." << endl
