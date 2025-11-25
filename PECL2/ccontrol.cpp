@@ -1,5 +1,3 @@
-#include<iostream>
-#include <iomanip>
 #include "ccontrol.h"
 
 using namespace std;
@@ -161,26 +159,27 @@ bool esCodigoPedido(string *codigo){
 void buscarPorPedidoID(Libreria lib, string codigo){
     Pedido* p = lib.listaPedidos->buscarPedido(codigo);
     if(p){
-        cout<< "Datos de libreria: "<<endl;
-        Mostrar(lib);
+        cout<< "Encontrado en libreria:"<<endl;
+        cout << lib << endl;
         cout<<endl;
         mostrarCabecera();
-        cout << "|  "
-             << setw(11) << p->id_libreria << "|"
-             << setw(11) << p->id_pedido   << "|"
-             << setw(12) << p->cod_libro   <<"|"
-             << setw(12)<< p->materia     <<"|"
-             << setw(10) << p->unidades    <<"|"
-             << setw(10)<< p->fecha       <<"|"
-             << endl<<endl;
+        lib.listaPedidos->recorrerLista();
     }
+}
+
+Libreria* buscarLibreriaPorPedidoID(Libreria *lib, string codigo){
+    Pedido* p = lib->listaPedidos->buscarPedido(codigo);
+    if(p){
+        return lib;
+    }
+    else return nullptr;
 }
 
 void borrarPorPedidoID(Libreria lib, string codigo){
     if(lib.listaPedidos->buscarPedido(codigo)){
         lib.listaPedidos->borrarPedido(codigo);
         cout<< "Datos de libreria: "<<endl;
-        Mostrar(lib);
+        cout << lib << endl;
         cout<<endl;
         mostrarCabecera();
         lib.listaPedidos->recorrerLista();
@@ -218,36 +217,6 @@ void opcionBorrarPedido(){
 }
 
 void opcionMoverPedido(){
-    string id;
-    cout <<"Introduzca el ID del pedido que desea mover: " << endl;
-    cin >> id;
-    if(esCodigoPedido(&id)){
-        //Aqui se buscaria el pedido, y en caso de encontrarlo se guardaria para ponerlo despues.
-
-
-        cout << "Introduzca el ID de la libreria donde lo quiere guardar: " <<endl;
-        int libID;
-        cin >> libID;
-        if(!cin.fail())
-        {
-            Libreria *lib = arbolGlobal->Buscar(libID);
-            if(lib){
-                cout << "Moviendo pedido en arbol..." << endl;
-            }
-            else{
-                cout <<"Error: La biblioteca buscada no existe." <<endl;
-            }
-        }
-        else
-        {
-            cout <<"Error: El ID debe ser un numero entero"<<endl<<endl;
-            cin.clear();
-            cin.ignore(10000, '\n');
-        }
-    }
-    else {
-        cout << "El codigo introducido no corresponde a un codigo real." << endl;
-    }
 }
 
 void estadisticaTopLibreriasPedidos(Libreria lib){

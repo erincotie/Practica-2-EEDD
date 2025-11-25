@@ -2,6 +2,8 @@
 #define CCONTROL.H
 
 #include <iostream>
+#include <iomanip>
+
 using namespace std;
 
 #define N_LIBRERIAS  10  //se definen el numero de librerias creadas inicialmente
@@ -16,6 +18,18 @@ struct Pedido{
     int unidades;
     string fecha;
 };
+
+//To_String ahh funcion para pedido.
+ostream& operator<<(ostream& out, const Pedido pedido);
+
+struct Libreria{
+    int id_libreria;
+    string localidad;
+    Lista* listaPedidos;
+};
+
+//To_String ahh funcion para libreria.
+ostream& operator<<(ostream& out, const Libreria pedido);
 
 class NodoLista
 {
@@ -60,12 +74,6 @@ public:
     int contarPedidos();
     int sumarUnidades();
 
-};
-
-struct Libreria{
-    int id_libreria;
-    string localidad;
-    Lista* listaPedidos;
 };
 
 class NodoArb
@@ -123,6 +131,7 @@ class ArbolABB
         // Aplicar una función a cada elemento del árbol:
         void InOrden(void (*func)(Libreria), NodoArb *nodo=NULL, bool r=true);
         void InOrden(void (*func)(Libreria, string), string busquedaParam, NodoArb *nodo=NULL, bool r=true);
+        Libreria* InOrden(Libreria* (*func)(Libreria*, string), string busquedaParam, NodoArb *nodo=NULL, bool r=true);
         void PreOrden(void (*func)(Libreria), NodoArb *nodo=NULL, bool r=true);
         void PostOrden(void (*func)(Libreria), NodoArb *nodo=NULL, bool r=true);
     private:

@@ -1,8 +1,30 @@
-#include<iostream>
-#include <iomanip>
 #include "ccontrol.h"
 
 using namespace std;
+
+ostream& operator<<(ostream& out, const Pedido pedido)
+{
+    out << "|  "
+        << setw(11) << pedido.id_libreria   << "|"
+        << setw(11) << pedido.id_pedido     << "|"
+        << setw(12) << pedido.cod_libro     << "|"
+        << setw(12)<< pedido.materia        << "|"
+        << setw(10) << pedido.unidades      << "|"
+        << setw(10)<< pedido.fecha          << "|";
+    return out;
+}
+
+ostream& operator<<(ostream& out, const Libreria lib)
+{
+    out <<"ID: " << setw(3) << lib.id_libreria
+    << "  Localidad: " << setw(12) << lib.localidad
+    << " Num Pedidos: " << lib.listaPedidos->contarPedidos();
+    return out;
+}
+
+void Mostrar(Libreria lib){
+    cout << lib << endl;
+}
 
 //Destructor
 ArbolABB::~ArbolABB()
@@ -206,6 +228,16 @@ void ArbolABB::InOrden(void (*func)(Libreria, string), string busquedaParam , No
    if(nodo->derecho) InOrden(func, busquedaParam, nodo->derecho, false);
 }
 
+Libreria* ArbolABB::InOrden(Libreria* (*func)(Libreria*, string), string busquedaParam , NodoArb *nodo, bool r)
+{
+  if (raiz==NULL) { return nullptr; }
+   if(r) nodo = raiz;
+   if(nodo->izquierdo) InOrden(func, busquedaParam, nodo->izquierdo, false);
+   Libreria* lib = func(&(nodo->dato), busquedaParam);
+   if(lib) return lib;
+   if(nodo->derecho) InOrden(func, busquedaParam, nodo->derecho, false);
+}
+
 // Recorrido de árbol en preorden, aplicamos la función func, que tiene
 // el prototipo:
 // void func(int&);
@@ -315,12 +347,6 @@ void ArbolABB::auxAltura(NodoArb *nodo, int a)
    // Proceso, si es un nodo hoja, y su altura es mayor que la actual del
    // árbol, actualizamos la altura actual del árbol
    if(EsHoja(nodo) && a > altura) altura = a;
-}
-
-// Función de prueba para recorridos del árbol
-void Mostrar(Libreria l)
-{
-   cout <<"ID: " << setw(3) <<l.id_libreria << "  Localidad: " << setw(12) << l.localidad<<" Num Pedidos: " << l.listaPedidos->contarPedidos()<< endl;
 }
 
 Lista::~Lista()
@@ -481,17 +507,10 @@ void Lista::recorrerLista()
     pnodo aux;
     aux = cabeza;
 
-
     while(aux)
     {
-        cout << "|  "
-             << setw(11) << aux->valor.id_libreria << "|"
-             << setw(11) << aux->valor.id_pedido   << "|"
-             << setw(12) << aux->valor.cod_libro   <<"|"
-             << setw(12)<< aux->valor.materia     <<"|"
-             << setw(10) << aux->valor.unidades    <<"|"
-             << setw(10)<< aux->valor.fecha       <<"|"
-             << endl;
+        cout << aux->valor << endl;
+
         aux = aux->siguiente;
     }
 }
