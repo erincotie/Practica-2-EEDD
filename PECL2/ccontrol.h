@@ -9,7 +9,6 @@ using namespace std;
 #define N_LIBRERIAS  10  //se definen el numero de librerias creadas inicialmente
 #define N_PEDIDOS  30  //se definen el numero de pedidos creados inicialmente y en la opcion 8
 
-
 struct Pedido{
     int id_libreria;
     string id_pedido;
@@ -21,15 +20,6 @@ struct Pedido{
 
 //To_String ahh funcion para pedido.
 ostream& operator<<(ostream& out, const Pedido pedido);
-
-struct Libreria{
-    int id_libreria;
-    string localidad;
-    Lista* listaPedidos;
-};
-
-//To_String ahh funcion para libreria.
-ostream& operator<<(ostream& out, const Libreria pedido);
 
 class NodoLista
 {
@@ -75,6 +65,15 @@ public:
     int sumarUnidades();
 
 };
+
+struct Libreria{
+    int id_libreria;
+    string localidad;
+    Lista* listaPedidos;
+};
+
+//To_String ahh funcion para libreria.
+ostream& operator<<(ostream& out, const Libreria pedido);
 
 class NodoArb
 {

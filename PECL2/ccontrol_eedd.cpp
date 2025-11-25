@@ -8,9 +8,9 @@ ostream& operator<<(ostream& out, const Pedido pedido)
         << setw(11) << pedido.id_libreria   << "|"
         << setw(11) << pedido.id_pedido     << "|"
         << setw(12) << pedido.cod_libro     << "|"
-        << setw(12)<< pedido.materia        << "|"
+        << setw(12) << pedido.materia        << "|"
         << setw(10) << pedido.unidades      << "|"
-        << setw(10)<< pedido.fecha          << "|";
+        << setw(10) << pedido.fecha          << "|";
     return out;
 }
 
