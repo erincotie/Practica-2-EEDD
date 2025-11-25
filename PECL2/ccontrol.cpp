@@ -160,7 +160,14 @@ bool esCodigoPedido(string codigo){
 void buscarPorPedidoID(Libreria lib, string codigo){
     Pedido* p = lib.listaPedidos->buscarPedido(codigo);
     if(p){
-        cout << p->cod_libro << p->id_libreria << p->materia << endl;
+        cout << "|  "
+             << setw(11) << p->id_libreria << "|"
+             << setw(11) << p->id_pedido   << "|"
+             << setw(12) << p->cod_libro   <<"|"
+             << setw(12)<< p->materia     <<"|"
+             << setw(10) << p->unidades    <<"|"
+             << setw(10)<< p->fecha       <<"|"
+             << endl;
     }
 }
 
