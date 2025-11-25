@@ -257,18 +257,6 @@ Libreria* ArbolABB::Buscar(int id)
    return nullptr; // No está en árbol
 }
 
-/*Terminar función que para cada nodo en el arbol, utiliza la función buscarPedido de Lista para encontrar un pedido.
-Pedido* ArbolABB::Buscar(string id_p)
-{
-   actual = raiz;
-   Pedido* p = nullptr;
-
-   // Todavía puede aparecer, ya que quedan nodos por mirar
-   while(!Vacio(actual) || p == nullptr) {
-        Pedido* p = actual->dato.listaPedidos->buscarPedido(id_p);
-   }
-   return p; // No está en árbol
-}*/
 
 // Calcular la altura del nodo que contiene el int dat
 int ArbolABB::Altura(Libreria l)

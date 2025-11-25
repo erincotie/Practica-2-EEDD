@@ -161,6 +161,9 @@ bool esCodigoPedido(string *codigo){
 void buscarPorPedidoID(Libreria lib, string codigo){
     Pedido* p = lib.listaPedidos->buscarPedido(codigo);
     if(p){
+        cout<< "Datos de libreria: "<<endl;
+        Mostrar(lib);
+        cout<<endl;
         mostrarCabecera();
         cout << "|  "
              << setw(11) << p->id_libreria << "|"
@@ -169,15 +172,19 @@ void buscarPorPedidoID(Libreria lib, string codigo){
              << setw(12)<< p->materia     <<"|"
              << setw(10) << p->unidades    <<"|"
              << setw(10)<< p->fecha       <<"|"
-             << endl;
+             << endl<<endl;
     }
 }
 
 void borrarPorPedidoID(Libreria lib, string codigo){
     if(lib.listaPedidos->buscarPedido(codigo)){
         lib.listaPedidos->borrarPedido(codigo);
+        cout<< "Datos de libreria: "<<endl;
+        Mostrar(lib);
+        cout<<endl;
         mostrarCabecera();
         lib.listaPedidos->recorrerLista();
+        cout<<endl;
     }
 }
 
