@@ -113,6 +113,8 @@ void opcionInsertarLibreria(){
         }
     }
     nuevaLib.listaPedidos = new Lista();
+    libIds[idsPointer] = nuevaLib.id_libreria;
+    idsPointer++;
     arbolGlobal->Insertar(nuevaLib);
     arbolGlobal->InOrden(Mostrar);
 }
@@ -244,10 +246,10 @@ void opcionMoverPedido(){
 
     Pedido* pedido = lib1->listaPedidos->buscarPedido(id);
 
-    cout << "ERROR: El pedido buscado ha sido encontrado. Info. de la libreria:" << endl;
+    cout << "El pedido buscado ha sido encontrado. Info. de la libreria:" << endl;
     cout << *lib1 << endl;
 
-    cout << "ERROR: Introduce el ID de la Libreria donde quieres que el pedido sea movido: ";
+    cout << "Introduce el ID de la Libreria donde quieres que el pedido sea movido: ";
     int libID;
     cin >> libID;
 
