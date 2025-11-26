@@ -228,19 +228,62 @@ void opcionMoverPedido(){
     string id;
     cin >> id;
 
+    if(!esCodigoPedido(&id)){
+        cout << "ERROR: El codigo introducido no corresponde a un pedido real." << endl;
+        cout << endl;
+        return;
+    }
+    formatearCodigoPedido(&id);
 
     Libreria* lib1 = arbolGlobal->InOrden(buscarLibreriaPorPedidoID, id);
+    if(lib1 == nullptr){
+        cout << "ERROR: El codigo introducido no ha sido encontrado en ninguna de las librerias." << endl
+        << endl;
+        return;
+    }
+
     Pedido* pedido = lib1->listaPedidos->buscarPedido(id);
+
+    cout << "ERROR: El pedido buscado ha sido encontrado. Info. de la libreria:" << endl;
     cout << *lib1 << endl;
+
+    cout << "ERROR: Introduce el ID de la Libreria donde quieres que el pedido sea movido: ";
     int libID;
     cin >> libID;
+
+    if(cin.fail()){
+        cout <<"ERROR: El ID de la libreria debe ser un numero entero."<<endl<<endl;
+        cin.clear();
+        cin.ignore(10000, '\n');
+        return;
+    }
+
+    if(libID == lib1->id_libreria){
+        cout << "El ID introducido de la libreria destino es igual al de fuente." << endl
+        << "Ninguna libreria ha sido modificada." << endl << endl;
+        return;
+    }
+
     Libreria* lib2 = arbolGlobal->Buscar(libID);
+
+    if(lib2 == nullptr){
+        cout << "ERROR: El codigo introducido no corresponde a una libreria real." << endl;
+        cout << endl;
+        return;
+    }
+
     pedido->id_libreria = lib2->id_libreria;
 
     lib2->listaPedidos->insertarPedido(*pedido);
     lib1->listaPedidos->borrarPedido(id);
+
+    cout << "El pedido ha sido movido exitosamente." << endl
+    << endl;
+    cout << *lib1 << endl;
     mostrarCabecera();
     lib1->listaPedidos->recorrerLista();
+
+    cout << *lib2 << endl;
     mostrarCabecera();
     lib2->listaPedidos->recorrerLista();
 }

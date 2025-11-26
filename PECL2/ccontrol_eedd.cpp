@@ -235,6 +235,7 @@ Libreria* ArbolABB::InOrden(bool (*func)(Libreria*, string), string busquedaPara
     if(func(&(nodo->dato), busquedaParam)) return &(nodo->dato);
     if(nodo->izquierdo) return InOrden(func, busquedaParam, nodo->izquierdo, false);
     if(nodo->derecho) return InOrden(func, busquedaParam, nodo->derecho, false);
+    return nullptr;
 }
 
 // Recorrido de árbol en preorden, aplicamos la función func, que tiene
