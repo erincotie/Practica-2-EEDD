@@ -325,7 +325,7 @@ bool loopPrincipal(){
     << "3- Mostrar los datos de los pedidos de una libreria dada." << endl
     << "4- Buscar un pedido concreto por su ID." << endl
     << "5- Extraer un pedido concreto. (Eliminar)." << endl
-    << "6- Llevar un pedido concreto de una libreria a otra. (EN DESARROLLO)" << endl
+    << "6- Llevar un pedido concreto de una libreria a otra." << endl
     << "7- Mostrar una estadistica de las librerias. (EN DESARROLLO)" << endl
     << "8- Continuar con la distribucion de pedidos." << endl
     << "0- Salir del programa" << endl;
