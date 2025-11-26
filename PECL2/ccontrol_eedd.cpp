@@ -228,14 +228,13 @@ void ArbolABB::InOrden(void (*func)(Libreria, string), string busquedaParam , No
    if(nodo->derecho) InOrden(func, busquedaParam, nodo->derecho, false);
 }
 
-Libreria* ArbolABB::InOrden(Libreria* (*func)(Libreria*, string), string busquedaParam , NodoArb *nodo, bool r)
+Libreria* ArbolABB::InOrden(bool (*func)(Libreria*, string), string busquedaParam, NodoArb *nodo, bool r)
 {
-  if (raiz==NULL) { return nullptr; }
-   if(r) nodo = raiz;
-   if(nodo->izquierdo) InOrden(func, busquedaParam, nodo->izquierdo, false);
-   Libreria* lib = func(&(nodo->dato), busquedaParam);
-   if(lib) return lib;
-   if(nodo->derecho) InOrden(func, busquedaParam, nodo->derecho, false);
+    if (raiz==NULL) { return nullptr;}
+    if(r) nodo = raiz;
+    if(func(&(nodo->dato), busquedaParam)) return &(nodo->dato);
+    if(nodo->izquierdo) return InOrden(func, busquedaParam, nodo->izquierdo, false);
+    if(nodo->derecho) return InOrden(func, busquedaParam, nodo->derecho, false);
 }
 
 // Recorrido de árbol en preorden, aplicamos la función func, que tiene

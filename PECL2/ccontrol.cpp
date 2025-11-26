@@ -139,19 +139,24 @@ void OpcionMostrarPedidos(int id){
     }
 }
 
+//Introduce la famosa P al inicio de un codigo dado.
+void formatearCodigoPedido(string *codigo){
+     if(codigo->size() < 6) codigo->insert(0, "P");
+}
+
 bool esCodigoPedido(string *codigo){
     if(codigo->size() > 6) return false;
     if(codigo->size() < 5) return false;
+    int i = 0;
     if(codigo->size() == 6){
         if(codigo->at(0) != 'P' && codigo->at(0) != 'p') return false;
 
-        else codigo->erase(0,1);
+        else i++;
     }
 
-    for(int i = 0; i < codigo->size(); i++){
+    for(i; i < codigo->size(); i++){
         if(codigo->at(i) < 48 || codigo->at(i) > 57) return false;
     }
-    codigo->insert(0, "P");
 
     return true;
 }
@@ -165,14 +170,6 @@ void buscarPorPedidoID(Libreria lib, string codigo){
         mostrarCabecera();
         lib.listaPedidos->recorrerLista();
     }
-}
-
-Libreria* buscarLibreriaPorPedidoID(Libreria *lib, string codigo){
-    Pedido* p = lib->listaPedidos->buscarPedido(codigo);
-    if(p){
-        return lib;
-    }
-    else return nullptr;
 }
 
 void borrarPorPedidoID(Libreria lib, string codigo){
@@ -192,6 +189,7 @@ void opcionBuscarPedido(){
     cout <<"Introduzca el ID del pedido que desea mostrar: " << endl;
     cin >> id;
     if(esCodigoPedido(&id)){
+        formatearCodigoPedido(&id);
         //Funcion para buscar pedido por ID.
         cout << "Buscando pedido en arbol..." << endl;
         arbolGlobal->InOrden(buscarPorPedidoID, id);
@@ -207,6 +205,7 @@ void opcionBorrarPedido(){
     cout <<"Introduzca el ID del pedido que desea borrar: " << endl;
     cin >> id;
     if(esCodigoPedido(&id)){
+        formatearCodigoPedido(&id);
         //Funcion para borrar pedido por ID.
         cout << "Borrando pedido en arbol..." << endl;
         arbolGlobal->InOrden(borrarPorPedidoID, id);
@@ -216,7 +215,34 @@ void opcionBorrarPedido(){
     }
 }
 
+bool buscarLibreriaPorPedidoID(Libreria *lib, string codigo){
+    Pedido* p = lib->listaPedidos->buscarPedido(codigo);
+    if(p){
+        return true;
+    }
+    else return false;
+}
+
 void opcionMoverPedido(){
+    cout << "Introduce el ID del Pedido que quieres mover: ";
+    string id;
+    cin >> id;
+
+
+    Libreria* lib1 = arbolGlobal->InOrden(buscarLibreriaPorPedidoID, id);
+    Pedido* pedido = lib1->listaPedidos->buscarPedido(id);
+    cout << *lib1 << endl;
+    int libID;
+    cin >> libID;
+    Libreria* lib2 = arbolGlobal->Buscar(libID);
+    pedido->id_libreria = lib2->id_libreria;
+
+    lib2->listaPedidos->insertarPedido(*pedido);
+    lib1->listaPedidos->borrarPedido(id);
+    mostrarCabecera();
+    lib1->listaPedidos->recorrerLista();
+    mostrarCabecera();
+    lib2->listaPedidos->recorrerLista();
 }
 
 void estadisticaTopLibreriasPedidos(Libreria lib){
