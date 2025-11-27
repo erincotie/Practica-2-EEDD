@@ -5,9 +5,7 @@ using namespace std;
 Lista *listaGlobal = new Lista();
 ArbolABB *arbolGlobal;
 
-//Solucion temporal
-int *libIds = new int[100];
-int idsPointer = 0;
+intLista *listaIDs = new intLista();
 
 #define NUM_LOCALIDADES 20
 string Localidades[NUM_LOCALIDADES] ={"Mostoles", "Alcala", "Leganes", "Fuenlabrada", "Getafe", "Alcorcon", "Torrejon", "Parla", "Alcobendas", "Coslada", "Pozuelo", "Rivas", "Valdemoro","Majadahonda", "Aranjuez", "Arganda", "Boadilla", "Pinto", "Colmenar", "Tres Cantos"};
@@ -30,9 +28,8 @@ void mostrarCabecera(){
 
 Libreria generarLibAleatoria(){
     int idLib = generarNumAleatorio(0, 1000);
-    //Solucion temporal horrible AQUI
-    libIds[idsPointer] = idLib;
-    idsPointer++;
+    listaIDs->insertarInt(idLib);
+
     Lista *libLista = new Lista();
     Libreria libreria = {idLib, Localidades[generarNumAleatorio(0, NUM_LOCALIDADES)], libLista};
     return libreria;
@@ -113,8 +110,8 @@ void opcionInsertarLibreria(){
         }
     }
     nuevaLib.listaPedidos = new Lista();
-    libIds[idsPointer] = nuevaLib.id_libreria;
-    idsPointer++;
+    listaIDs->insertarInt(nuevaLib.id_libreria);
+
     arbolGlobal->Insertar(nuevaLib);
     arbolGlobal->InOrden(Mostrar);
 }
@@ -430,7 +427,7 @@ void repartirPedidos(Lista *lista, ArbolABB *arbol){
 
 void generarPedidos(Lista *lista){
     for (int i =0; i < N_PEDIDOS; i++){
-        int idLib = libIds[generarNumAleatorio(0, idsPointer)];
+        int idLib = listaIDs->obtenerPosicion(generarNumAleatorio(0, listaIDs->contarInts()));
         string id_pedido = generarCodigoPedido();
         string cod_libro = generarCodigoLibro();
         string materia = Materias[generarNumAleatorio(0, NUM_MATERIAS)];

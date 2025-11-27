@@ -66,6 +66,44 @@ public:
 
 };
 
+class intNodoLista
+{
+private:
+    int valor;
+    intNodoLista *siguiente;
+    friend class intLista;
+
+public:
+    intNodoLista(int num, intNodoLista *sig = NULL)
+    {
+        valor = num;
+        siguiente = sig;
+    }
+};
+
+class intLista
+{
+private:
+    intNodoLista *cabeza;
+    intNodoLista *actual;
+    intNodoLista *final;
+
+public:
+    intLista()
+    {
+        cabeza = actual = final = NULL;
+    }
+    ~intLista();
+
+    void insertarInt(int i);
+    void borrarInt(int i);
+    int obtenerPosicion(int posicion);
+    bool esVacia();
+    void recorrerLista();
+    int contarInts();
+
+};
+
 struct Libreria{
     int id_libreria;
     string localidad;

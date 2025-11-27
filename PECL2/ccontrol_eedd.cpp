@@ -542,3 +542,106 @@ int Lista::sumarUnidades()
     }
     return cont;
 }
+
+void intLista::insertarInt(int i){
+    intNodoLista *aux;
+
+    if (esVacia())
+    {
+        cabeza = new intNodoLista(i, NULL);
+        final=cabeza;
+        actual=cabeza;
+    }
+    else
+    {
+        aux= new intNodoLista(i, NULL);
+        final->siguiente=aux;
+        final=aux;
+    }
+}
+
+void intLista::borrarInt(int i) {
+    intNodoLista *anterior;
+
+    if (cabeza == NULL) return;
+    else{
+        actual = cabeza;
+
+        while (actual->valor != i && (actual->siguiente)!=NULL)
+        {
+            anterior=actual;
+            actual=actual->siguiente;
+        }
+
+        if (actual->valor == i){ //comprobación de que está v en la lista
+            if(actual==cabeza) //si el que borramos es el primero en la lista, se modifica la cabeza
+                cabeza = actual->siguiente;
+            else
+            {
+                anterior->siguiente = actual->siguiente;
+                if (actual==final) // si es el ultimo el que borramos, se modifica el final
+                {
+                    final=anterior;
+                }
+            }
+            actual->siguiente=NULL;
+            delete actual;
+        }
+        else return;
+    }
+}
+
+bool intLista::esVacia(){
+    return cabeza == NULL;
+}
+
+void intLista::recorrerLista()
+{
+    if(this->esVacia())
+    {
+        cout << "(vacia)" << endl;
+        return;
+    }
+
+    intNodoLista *aux;
+    aux = cabeza;
+
+    while(aux)
+    {
+        cout << aux->valor << endl;
+
+        aux = aux->siguiente;
+    }
+}
+
+int intLista::obtenerPosicion(int posicion)
+{
+    int tamano = this->contarInts();
+    if(this->esVacia() || posicion > (tamano) )
+    {
+        return INT_MIN;
+    }
+
+    intNodoLista *aux;
+    aux = cabeza;
+
+    for(int i = 0; i < posicion; i++){
+        aux = aux->siguiente;
+    }
+
+    return aux->valor;
+}
+
+int intLista::contarInts()
+{
+    intNodoLista *aux;
+    aux = cabeza;
+    int cont =0;
+
+    while(aux)
+    {
+        cont ++;
+        aux = aux->siguiente;
+    }
+    return cont;
+}
