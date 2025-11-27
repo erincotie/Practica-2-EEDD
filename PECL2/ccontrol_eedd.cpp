@@ -1,6 +1,10 @@
 #include "ccontrol.h"
 
+#define NUM_MATERIAS 6
+string MateriasLista[NUM_MATERIAS] = {"Matematicas", "Historia","Lengua", "Musica", "Tecnologia", "Fisica" };
+
 using namespace std;
+int *estadistica = new int [6];
 
 ostream& operator<<(ostream& out, const Pedido pedido)
 {
@@ -543,6 +547,7 @@ int Lista::sumarUnidades()
     return cont;
 }
 
+
 void intLista::insertarInt(int i){
     intNodoLista *aux;
 
@@ -644,4 +649,26 @@ int intLista::contarInts()
         aux = aux->siguiente;
     }
     return cont;
+}
+
+int* Lista::contarMaterias()
+{
+    pnodo aux;
+    aux = cabeza;
+    int *estadistica = new int [6]();
+
+    while (aux)
+    {
+        for(int i = 0; i < NUM_MATERIAS; i++)
+        {
+            if(aux->valor.materia == MateriasLista[i])
+            {
+                estadistica[i]+= aux->valor.unidades;
+                break;
+            }
+        }
+
+        aux = aux->siguiente;
+    }
+    return estadistica;
 }

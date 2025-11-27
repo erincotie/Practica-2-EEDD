@@ -9,6 +9,7 @@ intLista *listaIDs = new intLista();
 
 #define NUM_LOCALIDADES 20
 string Localidades[NUM_LOCALIDADES] ={"Mostoles", "Alcala", "Leganes", "Fuenlabrada", "Getafe", "Alcorcon", "Torrejon", "Parla", "Alcobendas", "Coslada", "Pozuelo", "Rivas", "Valdemoro","Majadahonda", "Aranjuez", "Arganda", "Boadilla", "Pinto", "Colmenar", "Tres Cantos"};
+
 #define NUM_MATERIAS 6
 string Materias[NUM_MATERIAS] = {"Matematicas", "Historia","Lengua", "Musica", "Tecnologia", "Fisica" };
 
@@ -287,18 +288,60 @@ void opcionMoverPedido(){
     lib2->listaPedidos->recorrerLista();
 }
 
+string MateriaMasPopular(Libreria lib)
+{
+    int *materiaEstadistica = lib.listaPedidos->contarMaterias();
+    int indexMayor = 0;
+
+    for (int i =0; i<NUM_MATERIAS; i++)
+    {
+        if (materiaEstadistica[i] > materiaEstadistica[indexMayor])
+        {
+            indexMayor=i;
+        }
+    }
+    if(indexMayor == -1) return "No existen pedidos.";
+    else
+    {
+        return Materias[indexMayor] +"->" + to_string(materiaEstadistica[indexMayor]) + " pedidos";
+    }}
+
+string MateriaMenosPopular(Libreria lib)
+{
+    int *materiaEstadistica = lib.listaPedidos->contarMaterias();
+    int indexMenor = -1;
+
+    for (int i =0; i<NUM_MATERIAS; i++)
+    {
+        if (materiaEstadistica[i] > 0) // solo materias que tengan pedidos
+        {
+            if (indexMenor == -1 || materiaEstadistica[i] < materiaEstadistica[indexMenor])
+            {
+                indexMenor = i;
+            }
+        }
+    }
+    if(indexMenor == -1) return "No existen pedidos.";
+    else
+    {
+        return Materias[indexMenor] +"->" + to_string(materiaEstadistica[indexMenor]) + " pedidos";
+    }
+}
+
 void estadisticaTopLibreriasPedidos(Libreria lib){
     int numPedidos = lib.listaPedidos->contarPedidos();
     int sumUnidades = lib.listaPedidos->sumarUnidades();
     float media = sumUnidades/numPedidos;
     cout << "Estadisticas de la libreria con ID: " << lib.id_libreria << endl;
-    cout<<"----------------------------------------------------------------------------------------"<<endl
-        <<"| ID Libreria | Num Pedidos | Uds/Pedido | Materia mas popular | Materia menos popular |"<<endl
-        <<"----------------------------------------------------------------------------------------"<<endl
+    cout<<"--------------------------------------------------------------------------------------------"<<endl
+        <<"| ID Libreria | Num Pedidos | Uds/Pedido |  Materia mas popular  |  Materia menos popular  |"<<endl
+        <<"--------------------------------------------------------------------------------------------"<<endl
         << "|  "
         << setw(11) << lib.id_libreria << "|"
         << setw(13) << numPedidos   << "|"
         << setw(12) << media   <<"|"
+        << setw(23) << MateriaMasPopular(lib) << "|"
+        << setw(25) << MateriaMenosPopular(lib) << "|"
         << endl<<endl;
 
 }

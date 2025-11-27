@@ -9,6 +9,8 @@ using namespace std;
 #define N_LIBRERIAS  10  //se definen el numero de librerias creadas inicialmente
 #define N_PEDIDOS  30  //se definen el numero de pedidos creados inicialmente y en la opcion 8
 
+
+
 struct Pedido{
     int id_libreria;
     string id_pedido;
@@ -63,6 +65,7 @@ public:
     void recorrerLista();
     int contarPedidos();
     int sumarUnidades();
+    int* contarMaterias();
 
 };
 
