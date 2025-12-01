@@ -60,47 +60,39 @@ void opcionInsertarLibreria(){
             int newID;
             cout << "Introduce el ID: " << endl;
             cin >> newID;
-            if(!cin.fail())
-            {
-                if(newID < 1000 || newID > 0)
-                {
-                    if(!arbolGlobal->Buscar(newID)){
-                        nuevaLib.id_libreria = newID;
-                        continue;
-                    }
-                    else{
-                        cout << "Error: El ID NO puede coincidir con uno ya existente en el arbol." << endl;
-                        cin.clear();
-                        cin.ignore(10000, '\n');
-                        continue;
-                    }
-                }
-                else{
-                    cout << "Error: El ID debe ser un numero entero de 3 cifras." << endl;
-                    cin.clear();
-                    cin.ignore(10000, '\n');
-                    continue;
-                }
-            }
-            else
-            {
+
+            if(cin.fail()){
                 cout << "Error: Introduce un entero como ID." << endl;
                 cin.clear();
                 cin.ignore(10000, '\n');
                 continue;
             }
+
+            if(newID < 0 || newID >= 1000){
+                cout << "Error: El ID debe ser un numero entero de 3 cifras." << endl;
+                cin.clear();
+                cin.ignore(10000, '\n');
+                continue;
+            }
+
+            if(arbolGlobal->Buscar(newID)){
+                cout << "Error: El ID NO puede coincidir con uno ya existente en el arbol." << endl;
+                cin.clear();
+                cin.ignore(10000, '\n');
+                continue;
+            }
+
+            nuevaLib.id_libreria = newID;
+            continue;
         }
 
-        if(nuevaLib.localidad == "")
-        {
+        if(nuevaLib.localidad == ""){
             cout << "Introduce la localidad: " << endl;
             cin >> nuevaLib.localidad;
             continue;
         }
 
-        else{
-            enProceso = false;
-        }
+        enProceso = false;
     }
     nuevaLib.listaPedidos = new Lista();
     listaIDs->insertarInt(nuevaLib.id_libreria);
@@ -148,7 +140,9 @@ void opcionMostrarPedidos(){
         mostrarCabecera();
         l->listaPedidos->recorrerLista();
         cout << endl << endl;
-    } else{
+    }
+
+    else{
         cout <<endl <<"Libreria incorrecta, no existe en el sistema"<<endl<<endl;
     }
 }
@@ -158,7 +152,7 @@ void formatearCodigoPedido(string *codigo){
      if(codigo->size() < 6) codigo->insert(0, "P");
 }
 
-bool esCodigoPedido(string *codigo){
+bool esCodigoPedido(const string *codigo){
     if(codigo->size() > 6) return false;
     if(codigo->size() < 5) return false;
     int i = 0;
@@ -175,7 +169,7 @@ bool esCodigoPedido(string *codigo){
     return true;
 }
 
-void buscarPorPedidoID(Libreria lib, string codigo){
+void buscarPorPedidoID(const Libreria lib, const string *codigo){
     Pedido* p = lib.listaPedidos->buscarPedido(codigo);
     if(p){
         cout<< "Encontrado en libreria:"<<endl;
@@ -186,7 +180,7 @@ void buscarPorPedidoID(Libreria lib, string codigo){
     }
 }
 
-void borrarPorPedidoID(Libreria lib, string codigo){
+void borrarPorPedidoID(Libreria lib, const string *codigo){
     if(lib.listaPedidos->buscarPedido(codigo)){
         lib.listaPedidos->borrarPedido(codigo);
         cout<< "Datos de libreria: "<<endl;
@@ -206,7 +200,7 @@ void opcionBuscarPedido(){
         formatearCodigoPedido(&id);
         //Funcion para buscar pedido por ID.
         cout << "Buscando pedido en arbol..." << endl;
-        arbolGlobal->InOrden(buscarPorPedidoID, id);
+        arbolGlobal->InOrden(buscarPorPedidoID, &id);
 
     }
     else {
@@ -222,19 +216,20 @@ void opcionBorrarPedido(){
         formatearCodigoPedido(&id);
         //Funcion para borrar pedido por ID.
         cout << "Borrando pedido en arbol..." << endl;
-        arbolGlobal->InOrden(borrarPorPedidoID, id);
+        arbolGlobal->InOrden(borrarPorPedidoID, &id);
     }
     else {
         cout << "El codigo introducido no corresponde a un codigo real." << endl;
     }
 }
 
-bool buscarLibreriaPorPedidoID(Libreria *lib, string codigo){
+bool buscarLibreriaPorPedidoID(const Libreria *lib, const string *codigo){
     Pedido* p = lib->listaPedidos->buscarPedido(codigo);
     if(p){
         return true;
     }
-    else return false;
+    else
+        return false;
 }
 
 void opcionMoverPedido(){
@@ -249,14 +244,14 @@ void opcionMoverPedido(){
     }
     formatearCodigoPedido(&id);
 
-    Libreria* lib1 = arbolGlobal->InOrden(buscarLibreriaPorPedidoID, id);
+    Libreria* lib1 = arbolGlobal->InOrden(buscarLibreriaPorPedidoID, &id);
     if(lib1 == nullptr){
         cout << "ERROR: El codigo introducido no ha sido encontrado en ninguna de las librerias." << endl
         << endl;
         return;
     }
 
-    Pedido* pedido = lib1->listaPedidos->buscarPedido(id);
+    Pedido* pedido = lib1->listaPedidos->buscarPedido(&id);
 
     cout << "El pedido buscado ha sido encontrado. Info. de la libreria:" << endl;
     cout << *lib1 << endl;
@@ -289,7 +284,7 @@ void opcionMoverPedido(){
     pedido->id_libreria = lib2->id_libreria;
 
     lib2->listaPedidos->insertarPedido(*pedido);
-    lib1->listaPedidos->borrarPedido(id);
+    lib1->listaPedidos->borrarPedido(&id);
 
     cout << "El pedido ha sido movido exitosamente." << endl
     << endl;

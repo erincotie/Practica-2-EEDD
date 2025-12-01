@@ -223,7 +223,7 @@ void ArbolABB::InOrden(void (*func)(Libreria) , NodoArb *nodo, bool r)
    if(nodo->derecho) InOrden(func, nodo->derecho, false);
 }
 
-void ArbolABB::InOrden(void (*func)(Libreria, string), string busquedaParam , NodoArb *nodo, bool r)
+void ArbolABB::InOrden(void (*func)(Libreria, const string*), const string *busquedaParam , NodoArb *nodo, bool r)
 {
   if (raiz==NULL) {cout<<"Arbol vacio"<<endl; return;}
    if(r) nodo = raiz;
@@ -232,7 +232,7 @@ void ArbolABB::InOrden(void (*func)(Libreria, string), string busquedaParam , No
    if(nodo->derecho) InOrden(func, busquedaParam, nodo->derecho, false);
 }
 
-Libreria* ArbolABB::InOrden(bool (*func)(Libreria*, string), string busquedaParam, NodoArb *nodo, bool r)
+Libreria* ArbolABB::InOrden(bool (*func)(const Libreria*, const string*), const string *busquedaParam, NodoArb *nodo, bool r)
 {
     if (raiz==NULL) { return nullptr;}
     if(r) nodo = raiz;
@@ -414,20 +414,20 @@ void Lista::borrarPedido(Pedido p) {
 }
 
 
-void Lista::borrarPedido(string id_p) {
+void Lista::borrarPedido(const string *id_p) {
     pnodo anterior;
 
     if (cabeza == NULL) return;
     else{
         actual = cabeza;
 
-        while (actual->valor.id_pedido != id_p && (actual->siguiente)!=NULL)
+        while (actual->valor.id_pedido != *id_p && (actual->siguiente)!=NULL)
         {
             anterior=actual;
             actual=actual->siguiente;
         }
 
-        if (actual->valor.id_pedido == id_p){ //comprobación de que está v en la lista
+        if (actual->valor.id_pedido == *id_p){ //comprobación de que está v en la lista
             if(actual==cabeza) //si el que borramos es el primero en la lista, se modifica la cabeza
                 cabeza = actual->siguiente;
             else
@@ -445,18 +445,18 @@ void Lista::borrarPedido(string id_p) {
     }
 }
 
-Pedido* Lista::buscarPedido(string id_p) {
+Pedido* Lista::buscarPedido(const string *id_p) {
 
     if (cabeza == NULL) return nullptr;
     else{
         actual = cabeza;
 
-        while (actual->valor.id_pedido != id_p && (actual->siguiente)!=NULL)
+        while (actual->valor.id_pedido != *id_p && (actual->siguiente)!=NULL)
         {
             actual=actual->siguiente;
         }
 
-        if (actual->valor.id_pedido == id_p){ //comprobación de que está v en la lista
+        if (actual->valor.id_pedido == *id_p){ //comprobación de que está v en la lista
             return &actual->valor;
         }
         else return nullptr;

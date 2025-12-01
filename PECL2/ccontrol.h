@@ -54,8 +54,8 @@ public:
 
     void insertarPedido(Pedido p);
     void borrarPedido(Pedido p);
-    void borrarPedido(string id_p);
-    Pedido* buscarPedido(string id_p);
+    void borrarPedido(const string *id_p);
+    Pedido* buscarPedido(const string *id_p);
     bool listaVacia();
     void esCabeza();
     void esFinal();
@@ -171,8 +171,8 @@ class ArbolABB
         void Raiz();
         // Aplicar una función a cada elemento del árbol:
         void InOrden(void (*func)(Libreria), NodoArb *nodo=NULL, bool r=true);
-        void InOrden(void (*func)(Libreria, string), string busquedaParam, NodoArb *nodo=NULL, bool r=true);
-        Libreria* InOrden(bool (*func)(Libreria*, string), string busquedaParam, NodoArb *nodo=NULL, bool r=true);
+        void InOrden(void (*func)(Libreria, const string*), const string *busquedaParam, NodoArb *nodo=NULL, bool r=true);
+        Libreria* InOrden(bool (*func)(const Libreria*, const string*), const string *busquedaParam, NodoArb *nodo=NULL, bool r=true);
 
         void PreOrden(void (*func)(Libreria), NodoArb *nodo=NULL, bool r=true);
         void PostOrden(void (*func)(Libreria), NodoArb *nodo=NULL, bool r=true);
