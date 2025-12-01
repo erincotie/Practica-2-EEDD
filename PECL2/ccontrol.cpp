@@ -13,18 +13,11 @@ string Localidades[NUM_LOCALIDADES] ={"Mostoles", "Alcala", "Leganes", "Fuenlabr
 #define NUM_MATERIAS 6
 string Materias[NUM_MATERIAS] = {"Matematicas", "Historia","Lengua", "Musica", "Tecnologia", "Fisica" };
 
-void introducirSeed()
-{
-    //if(SEED > 0) srand (SEED);
-    //else srand (time(NULL));
-    srand(time(NULL));
-}
-
 void mostrarCabecera(){
     //cout << titulo << ":" << endl
-             cout << "---------------------------------------------------------------------------"<<endl
-             <<      "| ID Libreria | ID Pedido | Cod. Libro |   Materia  | Unidades |   Fecha   |"<<endl
-             <<      "---------------------------------------------------------------------------"<<endl;
+             cout << "---------------------------------------------------------------------------"  <<endl
+             <<      "| ID Libreria | ID Pedido | Cod. Libro |   Materia  | Unidades |   Fecha  |" <<endl
+             <<      "---------------------------------------------------------------------------"  <<endl;
 }
 
 Libreria generarLibAleatoria(){
@@ -43,11 +36,11 @@ void prepararPedidos(){
     generarPedidos(listaGlobal);
     mostrarCabecera();
     listaGlobal->recorrerLista();
-    cout << "<<< Presione cualquier tecla para continuar >>>" << endl;
+    cout << "<<< Presione ENTER para continuar >>>" << endl;
 
-    cin.get();
-    cin.clear();
     cin.ignore();
+    cin.clear();
+    cin.get();
 
     //Segundo paso: Repartir los pedidos y dar opciones al usuario.
     repartirPedidos(listaGlobal, arbolGlobal);
@@ -117,7 +110,18 @@ void opcionInsertarLibreria(){
     arbolGlobal->InOrden(Mostrar);
 }
 
-void OpcionBorrarLibreria(int id){
+void opcionBorrarLibreria(){
+    cout << "Introduzca el ID de libreria que desea borrar: " << endl;
+    int id;
+    cin >> id;
+    if(cin.fail())
+    {
+        cout << "Error: El ID introducido no es valido, introduzca un numero entero" <<endl;
+        cin.clear();
+        cin.ignore(10000, '\n');
+        return;
+    }
+
     if(arbolGlobal->Buscar(id) == nullptr){
         cout << endl << "La libreria del ID especificado no existe." << endl;
     }
@@ -128,7 +132,18 @@ void OpcionBorrarLibreria(int id){
     arbolGlobal->InOrden(Mostrar);
 }
 
-void OpcionMostrarPedidos(int id){
+void opcionMostrarPedidos(){
+    cout << "Introduzca el ID de libreria que desea mostrar: " << endl;
+    int id;
+    cin >> id;
+    if(cin.fail())
+    {
+        cout <<"Error: El ID introducido no es valido, introduzca un numero entero" << endl << endl;
+        cin.clear();
+        cin.ignore(10000, '\n');
+        return;
+    }
+
     Libreria* l = arbolGlobal->Buscar(id);
     if(l != nullptr){
         mostrarCabecera();
@@ -358,7 +373,6 @@ void opcionEstadistica(){
 bool loopPrincipal(){
 
     //Opciones del menú
-
     cout << "Opciones disponibles:" << endl
     << "1- Insertar una libreria de forma manual." << endl
     << "2- Borrar una libreria del arbol." << endl
@@ -373,46 +387,29 @@ bool loopPrincipal(){
     cout << "Seleccione una opcion del menu: " << endl;
     int opcion;
     cin >> opcion;
+
     // proteccion para entrada de SOLO enteros. Solo entra al switch si no falla el cin.
-    if (!cin.fail())
-    {
-        switch(opcion)
+    //En caso de fallo del cin, se muestra un mensaje de error y se vuelve a pedir opcion.
+    if(cin.fail()){
+        cout <<"Opcion no valida, introduce un numero entero."<<endl<<endl;
+        cin.clear();
+        cin.ignore(10000, '\n');
+        return true;
+    }
+
+    switch(opcion)
         {
         case 0:
             return false;
             break;
         case 1:
-            {
-                opcionInsertarLibreria();
-                break;
-            }
+            opcionInsertarLibreria();
+            break;
         case 2:
-            {
-               // borrar libreria
-                cout <<endl<<"Introduzca el ID de libreria que desea borrar: " <<endl;
-                int id;
-                cin >> id;
-                if(!cin.fail()){
-                    OpcionBorrarLibreria(id);
-                } else{
-                    cout <<"Introduzca un numero entero"<<endl<<endl;
-                    cin.clear();
-                    cin.ignore(10000, '\n');
-                }
-                break;
-            }
+            opcionBorrarLibreria();
+            break;
         case 3:
-            //mostrar libreria
-            cout <<endl<<"Introduzca el ID de libreria que desea mostrar: " <<endl;
-                int id;
-                cin >> id;
-                if(!cin.fail()){
-                    OpcionMostrarPedidos(id);
-                } else{
-                    cout <<"Introduzca un numero entero"<<endl<<endl;
-                    cin.clear();
-                    cin.ignore(10000, '\n');
-                }
+            opcionMostrarPedidos();
             break;
         case 4:
             opcionBuscarPedido();
@@ -424,7 +421,6 @@ bool loopPrincipal(){
             opcionMoverPedido();
             break;
         case 7:
-            //estadisticas
             opcionEstadistica();
             break;
         case 8:
@@ -437,15 +433,7 @@ bool loopPrincipal(){
             cin.ignore(10000,'\n');
             break;
         }
-    }
 
-    //En caso de fallo del cin, se muestra un mensaje de error y se vuelve a pedir opcion.
-    else
-    {
-        cout <<"Opcion no valida, introduce un numero"<<endl<<endl;
-        cin.clear();
-        cin.ignore(10000, '\n');
-    }
     return true;
 }
 
@@ -521,6 +509,12 @@ string generarCodigoPedido()
 
     return nuevoCodigo;
 
+}
+
+void introducirSeed()
+{
+    if(SEED != -1) srand (SEED);
+    else srand (time(NULL));
 }
 
 void inicializarABB(){

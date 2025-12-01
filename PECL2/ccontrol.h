@@ -6,10 +6,11 @@
 
 using namespace std;
 
-#define N_LIBRERIAS  10  //se definen el numero de librerias creadas inicialmente
-#define N_PEDIDOS  30  //se definen el numero de pedidos creados inicialmente y en la opcion 8
-
-
+#define N_LIBRERIAS  10 //Define el numero de librerias creadas inicialmente.
+#define N_PEDIDOS  30   //Define el numero de pedidos creados por iteracion.
+#define SEED -1         //Define la Seed que usara la generacion de numeros pseudo-aleatorio
+                        //-1 -> Se usa el reloj del sistema como Seed.
+                        //Cualquier otro numero se usara como Seed.
 
 struct Pedido{
     int id_libreria;
@@ -184,14 +185,18 @@ class ArbolABB
 
 void Mostrar(Libreria l);
 
-//Preparacion de pedidos que se muestran por pantalla y se preparan. Se usa al inicio del programa.
-void prepararPedidos();
-
 //Loop principal del programa.
 bool loopPrincipal();
 
-//Crear y mostrar arbol global.
-void inicializarABB();
+//Preparacion de pedidos que se muestran por pantalla y se reparten. Se usa al inicio del programa.
+void prepararPedidos();
+
+
+
+
+
+
+
 
 //Mostrar cabecera de datos.
 void mostrarCabecera();
@@ -225,7 +230,10 @@ string generarCodigoLibro();
 //Genera un codigo pedido aleatorio del formato 'P'NNNNN (N:digito)
 string generarCodigoPedido();
 
-//Prepara el dispositivo Rand.
+//Crear y mostrar arbol global.
+void inicializarABB();
+
+//Prepara la generacion de numeros enteros pseudo-aleatorios.
 void introducirSeed();
 
 #endif // CCONTROL
