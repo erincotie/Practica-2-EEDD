@@ -14,10 +14,9 @@ string Localidades[NUM_LOCALIDADES] ={"Mostoles", "Alcala", "Leganes", "Fuenlabr
 string Materias[NUM_MATERIAS] = {"Matematicas", "Historia","Lengua", "Musica", "Tecnologia", "Fisica" };
 
 void mostrarCabecera(){
-    //cout << titulo << ":" << endl
-             cout << "---------------------------------------------------------------------------"  <<endl
-             <<      "| ID Libreria | ID Pedido | Cod. Libro |   Materia  | Unidades |   Fecha  |" <<endl
-             <<      "---------------------------------------------------------------------------"  <<endl;
+    cout << "---------------------------------------------------------------------------"  <<endl
+    <<      "| ID Libreria | ID Pedido | Cod. Libro |   Materia  | Unidades |   Fecha  |" <<endl
+    <<      "---------------------------------------------------------------------------"  <<endl;
 }
 
 Libreria generarLibAleatoria(){
@@ -306,34 +305,33 @@ void opcionMoverPedido(){
 string MateriaMasPopular(Libreria lib)
 {
     int *materiaEstadistica = lib.listaPedidos->contarMaterias();
-    int indexMayor = 0;
+    int indexMayor = -1;
 
-    for (int i =0; i<NUM_MATERIAS; i++)
+    for (int i =0; i < NUM_MATERIAS; i++)
     {
-        if (materiaEstadistica[i] > materiaEstadistica[indexMayor])
+        if (materiaEstadistica[i] > 0 &&(materiaEstadistica[i] > materiaEstadistica[indexMayor]))
         {
             indexMayor=i;
         }
     }
+
     if(indexMayor == -1) return "No existen pedidos.";
     else
     {
         return Materias[indexMayor] +"->" + to_string(materiaEstadistica[indexMayor]) + " pedidos";
-    }}
+    }
+}
 
 string MateriaMenosPopular(Libreria lib)
 {
     int *materiaEstadistica = lib.listaPedidos->contarMaterias();
     int indexMenor = -1;
 
-    for (int i =0; i<NUM_MATERIAS; i++)
+    for (int i =0; i < NUM_MATERIAS; i++)
     {
-        if (materiaEstadistica[i] > 0) // solo materias que tengan pedidos
+        if (materiaEstadistica[i] > 0 && (indexMenor == -1 || materiaEstadistica[i] < materiaEstadistica[indexMenor]))
         {
-            if (indexMenor == -1 || materiaEstadistica[i] < materiaEstadistica[indexMenor])
-            {
-                indexMenor = i;
-            }
+            indexMenor = i;
         }
     }
     if(indexMenor == -1) return "No existen pedidos.";
@@ -345,8 +343,12 @@ string MateriaMenosPopular(Libreria lib)
 
 void estadisticaTopLibreriasPedidos(Libreria lib){
     int numPedidos = lib.listaPedidos->contarPedidos();
-    int sumUnidades = lib.listaPedidos->sumarUnidades();
-    float media = sumUnidades/numPedidos;
+    float media = 0;
+    if(numPedidos > 0){
+        int sumUnidades = lib.listaPedidos->sumarUnidades();
+        media = sumUnidades/numPedidos;
+    }
+
     cout << "Estadisticas de la libreria con ID: " << lib.id_libreria << endl;
     cout<<"--------------------------------------------------------------------------------------------"<<endl
         <<"| ID Libreria | Num Pedidos | Uds/Pedido |  Materia mas popular  |  Materia menos popular  |"<<endl
@@ -388,7 +390,7 @@ bool loopPrincipal(){
     int opcion;
     cin >> opcion;
 
-    // proteccion para entrada de SOLO enteros. Solo entra al switch si no falla el cin.
+    //Proteccion para entrada de SOLO enteros. Solo entra al switch si no falla el cin.
     //En caso de fallo del cin, se muestra un mensaje de error y se vuelve a pedir opcion.
     if(cin.fail()){
         cout <<"Opcion no valida, introduce un numero entero."<<endl<<endl;

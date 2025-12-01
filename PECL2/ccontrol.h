@@ -8,7 +8,7 @@ using namespace std;
 
 #define N_LIBRERIAS  10 //Define el numero de librerias creadas inicialmente.
 #define N_PEDIDOS  30   //Define el numero de pedidos creados por iteracion.
-#define SEED -1         //Define la Seed que usara la generacion de numeros pseudo-aleatorio
+#define SEED 1          //Define la Seed que usara la generacion de numeros pseudo-aleatorio
                         //-1 -> Se usa el reloj del sistema como Seed.
                         //Cualquier otro numero se usara como Seed.
 
