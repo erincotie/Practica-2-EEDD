@@ -1,4 +1,5 @@
 #ifndef CCONTROL.H
+
 #define CCONTROL.H
 
 #include <iostream>
@@ -7,8 +8,8 @@
 using namespace std;
 
 #define N_LIBRERIAS  10 //Define el numero de librerias creadas inicialmente.
-#define N_PEDIDOS  30   //Define el numero de pedidos creados por iteracion.
-#define SEED 1          //Define la Seed que usara la generacion de numeros pseudo-aleatorio
+#define N_PEDIDOS 30   //Define el numero de pedidos creados por iteracion.
+#define SEED -1          //Define la Seed que usara la generacion de numeros pseudo-aleatorio
                         //-1 -> Se usa el reloj del sistema como Seed.
                         //Cualquier otro numero se usara como Seed.
 
@@ -21,7 +22,8 @@ struct Pedido{
     string fecha;
 };
 
-//To_String ahh funcion para pedido.
+//Socrecarga de operador <<
+//Muestra por pantalla la informacion de un Pedido al ser pasado a cout.
 ostream& operator<<(ostream& out, const Pedido pedido);
 
 class NodoLista
@@ -114,7 +116,8 @@ struct Libreria{
     Lista* listaPedidos;
 };
 
-//To_String ahh funcion para libreria.
+//Socrecarga de operador <<
+//Muestra por pantalla la informacion de una Libreria al ser pasado a cout.
 ostream& operator<<(ostream& out, const Libreria pedido);
 
 class NodoArb
@@ -191,15 +194,42 @@ bool loopPrincipal();
 //Preparacion de pedidos que se muestran por pantalla y se reparten. Se usa al inicio del programa.
 void prepararPedidos();
 
-
-
-
-
-
-
-
 //Mostrar cabecera de datos.
 void mostrarCabecera();
+
+//Genera una Libreria con datos aleatorios.
+Libreria generarLibAleatoria();
+
+//Si el string introducido tiene un tanaño menor a 6. Introduce una 'P' al inicio del string.
+void formatearCodigoPedido(string *codigo);
+
+//Devuelve true si el string es compatible a un codigo.
+//Acepta un codigo introducido tanto si tiene la 'P' como si no.
+bool esCodigoPedido(const string *codigo);
+
+//Muestra por pantalla el contenido de la libreria donde se encuentra el pedido buscado (por codigo).
+void mostrarLibreriaPorPedido(const Libreria lib, const string *codigo);
+
+//Devuelve true si el pedido especificado (por codigo) se encuentra en la libreria.
+bool buscarLibreriaPorPedido(const Libreria *lib, const string *codigo);
+
+//Borra el pedido especificado (por codigo) en la libreria.
+//Muestra por pantalla el resultado final.
+void borrarPorPedido(Libreria lib, const string *codigo);
+
+//Devuelve el nombre de la materia mas popular en la libreria.
+string MateriaMasPopular(Libreria lib);
+
+//Devuelve el nombre de la materia menos popular en la libreria.
+string MateriaMenosPopular(Libreria lib);
+
+/*
+    Devuelve estadisticas de una libreria especifica.
+    Estadisticas: Top 5 librerias con mas pedidos,
+    en cada una de ellas decir la media de unidades por pedido,
+    la materia mas / menos popular.
+*/
+void estadisticaTopLibreriasPedidos(Libreria lib);
 
 //Permite rellenar una lista con pedidos.
 void generarPedidos(Lista *lista);
@@ -209,10 +239,6 @@ void repartirPedidos(Lista *lista, ArbolABB *arbol);
 
 //Muestra por pantalla el contenido de una lista de pedidos.
 void mostrarLista(Lista *lista);
-
-void crearArbolGlobal();
-
-Libreria generarLibAleatoria();
 
 //Permite rellenar un arbol con librerias en sus nodos
 void generarArbolAleatorio(ArbolABB *abb);
@@ -236,4 +262,4 @@ void inicializarABB();
 //Prepara la generacion de numeros enteros pseudo-aleatorios.
 void introducirSeed();
 
-#endif // CCONTROL
+#endif

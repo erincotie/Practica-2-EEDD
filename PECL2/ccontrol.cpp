@@ -47,7 +47,6 @@ void prepararPedidos(){
     arbolGlobal->InOrden(Mostrar);
 }
 
-//Considerar añadir una opcion para cancelar y volver al menu.
 void opcionInsertarLibreria(){
     bool enProceso = true;
     Libreria nuevaLib = {-1,"", nullptr};
@@ -147,7 +146,6 @@ void opcionMostrarPedidos(){
     }
 }
 
-//Introduce la famosa P al inicio de un codigo dado.
 void formatearCodigoPedido(string *codigo){
      if(codigo->size() < 6) codigo->insert(0, "P");
 }
@@ -155,21 +153,21 @@ void formatearCodigoPedido(string *codigo){
 bool esCodigoPedido(const string *codigo){
     if(codigo->size() > 6) return false;
     if(codigo->size() < 5) return false;
-    int i = 0;
+    unsigned int i = 0;
     if(codigo->size() == 6){
         if(codigo->at(0) != 'P' && codigo->at(0) != 'p') return false;
 
         else i++;
     }
 
-    for(i; i < codigo->size(); i++){
+    for(; i < codigo->size(); i++){
         if(codigo->at(i) < 48 || codigo->at(i) > 57) return false;
     }
 
     return true;
 }
 
-void buscarPorPedidoID(const Libreria lib, const string *codigo){
+void mostrarLibreriaPorPedido(const Libreria lib, const string *codigo){
     Pedido* p = lib.listaPedidos->buscarPedido(codigo);
     if(p){
         cout<< "Encontrado en libreria:"<<endl;
@@ -180,7 +178,16 @@ void buscarPorPedidoID(const Libreria lib, const string *codigo){
     }
 }
 
-void borrarPorPedidoID(Libreria lib, const string *codigo){
+bool buscarLibreriaPorPedido(const Libreria *lib, const string *codigo){
+    Pedido* p = lib->listaPedidos->buscarPedido(codigo);
+    if(p){
+        return true;
+    }
+    else
+        return false;
+}
+
+void borrarPorPedido(Libreria lib, const string *codigo){
     if(lib.listaPedidos->buscarPedido(codigo)){
         lib.listaPedidos->borrarPedido(codigo);
         cout<< "Datos de libreria: "<<endl;
@@ -200,7 +207,7 @@ void opcionBuscarPedido(){
         formatearCodigoPedido(&id);
         //Funcion para buscar pedido por ID.
         cout << "Buscando pedido en arbol..." << endl;
-        arbolGlobal->InOrden(buscarPorPedidoID, &id);
+        arbolGlobal->InOrden(mostrarLibreriaPorPedido, &id);
 
     }
     else {
@@ -216,20 +223,11 @@ void opcionBorrarPedido(){
         formatearCodigoPedido(&id);
         //Funcion para borrar pedido por ID.
         cout << "Borrando pedido en arbol..." << endl;
-        arbolGlobal->InOrden(borrarPorPedidoID, &id);
+        arbolGlobal->InOrden(borrarPorPedido, &id);
     }
     else {
         cout << "El codigo introducido no corresponde a un codigo real." << endl;
     }
-}
-
-bool buscarLibreriaPorPedidoID(const Libreria *lib, const string *codigo){
-    Pedido* p = lib->listaPedidos->buscarPedido(codigo);
-    if(p){
-        return true;
-    }
-    else
-        return false;
 }
 
 void opcionMoverPedido(){
@@ -244,7 +242,7 @@ void opcionMoverPedido(){
     }
     formatearCodigoPedido(&id);
 
-    Libreria* lib1 = arbolGlobal->InOrden(buscarLibreriaPorPedidoID, &id);
+    Libreria* lib1 = arbolGlobal->InOrden(buscarLibreriaPorPedido, &id);
     if(lib1 == nullptr){
         cout << "ERROR: El codigo introducido no ha sido encontrado en ninguna de las librerias." << endl
         << endl;
@@ -359,10 +357,6 @@ void estadisticaTopLibreriasPedidos(Libreria lib){
 }
 
 void opcionEstadistica(){
-    /*
-      Estadistica: Top 5 librerias con mas pedidos, en cada una de ellas decir la media de unidades por pedido,
-      la materia mas / menos popular.
-    */
     arbolGlobal->InOrden(estadisticaTopLibreriasPedidos);
 }
 
@@ -470,7 +464,6 @@ int generarNumAleatorio(int minimo, int maximo){
     return (rand() % (maximo-minimo) ) + minimo;
 };
 
-//Genera una letra mayuscula (A-Z).
 char generarLetraMayusAleatoria()
 {
     //26->Diferencia entre A y Z.
@@ -478,7 +471,6 @@ char generarLetraMayusAleatoria()
     return (char)(rand() % 26) + 65;
 }
 
-//Genera el codigo del libro en formato NNNCNN (N: Cifra decimal, C: Caracter)
 string generarCodigoLibro()
 {
     string nuevoCodigo;
@@ -496,7 +488,6 @@ string generarCodigoLibro()
 
 }
 
-//Genera el codigo del libro en formato 'P'NNNNN (N: Cifra decimal)
 string generarCodigoPedido()
 {
     string nuevoCodigo = "P";
