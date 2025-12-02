@@ -123,6 +123,7 @@ void opcionBorrarLibreria(){
     else{
         cout << endl<< "Borrando la libreria con ID: "<< id << endl;
         arbolGlobal->Borrar(id);
+        listaIDs->borrarInt(id);
     }
     arbolGlobal->InOrden(Mostrar);
 }

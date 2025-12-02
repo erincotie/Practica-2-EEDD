@@ -608,6 +608,32 @@ int Lista::sumarUnidades()
     return cont;
 }
 
+//Funcion contarMaterias, recorre una Lista y acumula el número de unidades de cada materia en un array,
+//cuyas posiciones corresponden a las posiciones de las materias en su array de definicion
+//devuelve el array con la acumulacion de unidades de cada materia
+int* Lista::contarMaterias()
+{
+    pnodo aux;
+    aux = cabeza;
+    int *estadistica = new int [6]();
+
+    //recorre la lista hasta que esta sea vacia
+    while (aux)
+    {
+        //recorre el array materias, para encontrar la posicion de la materia y si coincide añadir las unidades al array estadistica
+        for(int i = 0; i < NUM_MATERIAS; i++)
+        {
+            if(aux->valor.materia == MateriasLista[i])
+            {
+                estadistica[i]+= aux->valor.unidades;
+                break;
+            }
+        }
+
+        aux = aux->siguiente;
+    }
+    return estadistica;
+}
 
 //Funcion InsertarInt, realiza la misma funcion que InsertarPedido, pero con una lista de enteros
 void intLista::insertarInt(int i){
@@ -723,32 +749,4 @@ int intLista::contarInts()
         aux = aux->siguiente;
     }
     return cont;
-}
-
-
-//Funcion contarMaterias, recorre una Lista y acumula el número de unidades de cada materia en un array,
-//cuyas posiciones corresponden a las posiciones de las materias en su array de definicion
-//devuelve el array con la acumulacion de unidades de cada materia
-int* Lista::contarMaterias()
-{
-    pnodo aux;
-    aux = cabeza;
-    int *estadistica = new int [6]();
-
-    //recorre la lista hasta que esta sea vacia
-    while (aux)
-    {
-        //recorre el array materias, para encontrar la posicion de la materia y si coincide añadir las unidades al array estadistica
-        for(int i = 0; i < NUM_MATERIAS; i++)
-        {
-            if(aux->valor.materia == MateriasLista[i])
-            {
-                estadistica[i]+= aux->valor.unidades;
-                break;
-            }
-        }
-
-        aux = aux->siguiente;
-    }
-    return estadistica;
 }
