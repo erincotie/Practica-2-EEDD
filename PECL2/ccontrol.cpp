@@ -21,7 +21,6 @@ void mostrarCabecera(){
 
 Libreria generarLibAleatoria(){
     int idLib = generarNumAleatorio(0, 1000);
-    listaIDs->insertarInt(idLib);
 
     Lista *libLista = new Lista();
     Libreria libreria = {idLib, Localidades[generarNumAleatorio(0, NUM_LOCALIDADES)], libLista};
@@ -45,6 +44,10 @@ void prepararPedidos(){
     repartirPedidos(listaGlobal, arbolGlobal);
     cout << "Pedidos repartidos. Estado del arbol:" << endl;
     arbolGlobal->InOrden(Mostrar);
+
+    cout << "Listado de identificadores de librerias: ";
+    listaIDs->recorrerLista();
+    cout << endl;
 }
 
 void opcionInsertarLibreria(){
@@ -101,7 +104,9 @@ void opcionInsertarLibreria(){
 }
 
 void opcionBorrarLibreria(){
-    cout << "Introduzca el ID de libreria que desea borrar: " << endl;
+    cout << "Ids disponibles: ";
+    listaIDs->recorrerLista();
+    cout << endl << "Introduzca el ID de libreria que desea borrar: " << endl;
     int id;
     cin >> id;
     if(cin.fail())
@@ -123,7 +128,9 @@ void opcionBorrarLibreria(){
 }
 
 void opcionMostrarPedidos(){
-    cout << "Introduzca el ID de libreria que desea mostrar: " << endl;
+    cout << "Ids disponibles: ";
+    listaIDs->recorrerLista();
+    cout << endl << "Introduzca el ID de libreria que desea mostrar: " << endl;
     int id;
     cin >> id;
     if(cin.fail())
@@ -142,7 +149,7 @@ void opcionMostrarPedidos(){
     }
 
     else{
-        cout <<endl <<"Libreria incorrecta, no existe en el sistema"<<endl<<endl;
+        cout <<endl <<"La libreria no existe en el sistema."<<endl<<endl;
     }
 }
 
@@ -254,7 +261,9 @@ void opcionMoverPedido(){
     cout << "El pedido buscado ha sido encontrado. Info. de la libreria:" << endl;
     cout << *lib1 << endl;
 
-    cout << "Introduce el ID de la Libreria donde quieres que el pedido sea movido: ";
+    cout << "Ids disponibles: ";
+    listaIDs->recorrerLista();
+    cout << endl << "Introduce el ID de la Libreria donde quieres que el pedido sea movido: ";
     int libID;
     cin >> libID;
 
@@ -371,7 +380,7 @@ bool loopPrincipal(){
     << "4- Buscar un pedido concreto por su ID." << endl
     << "5- Extraer un pedido concreto. (Eliminar)." << endl
     << "6- Llevar un pedido concreto de una libreria a otra." << endl
-    << "7- Mostrar una estadistica de las librerias. (EN DESARROLLO)" << endl
+    << "7- Mostrar estadisticas de las librerias." << endl
     << "8- Continuar con la distribucion de pedidos." << endl
     << "0- Salir del programa" << endl;
 
@@ -433,7 +442,6 @@ void generarArbolAleatorio(ArbolABB *abb){
         Libreria l = generarLibAleatoria();
         abb->Insertar(l);
     }
-
 }
 
 void repartirPedidos(Lista *lista, ArbolABB *arbol){
@@ -505,13 +513,17 @@ void introducirSeed()
     else srand (time(NULL));
 }
 
+void insertarIdsEnOrden(Libreria lib){
+    listaIDs->insertarInt(lib.id_libreria);
+}
+
 void inicializarABB(){
     cout << "Creando el ABB con " << N_LIBRERIAS << " nodos:" << endl;
 
     arbolGlobal = new ArbolABB();
     generarArbolAleatorio(arbolGlobal);
+    arbolGlobal->InOrden(insertarIdsEnOrden);
 
     cout << "Arbol vacio creado:" << endl;
     arbolGlobal->InOrden(Mostrar);
-
 }

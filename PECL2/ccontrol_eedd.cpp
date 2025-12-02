@@ -613,7 +613,7 @@ void intLista::recorrerLista()
 
     while(aux)
     {
-        cout << aux->valor << endl;
+        cout << aux->valor << ",";
 
         aux = aux->siguiente;
     }
