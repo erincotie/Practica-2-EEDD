@@ -370,6 +370,17 @@ void opcionEstadistica(){
     arbolGlobal->InOrden(estadisticaTopLibreriasPedidos);
 }
 
+void repetirAccionWrapper(void (*func)(void), string msg){
+    bool continuar = true;
+    char r;
+    while(continuar){
+        func();
+        cout << msg << " (y/n)\n";
+        cin >> r;
+        if(r != 'y') continuar = false;
+    }
+}
+
 
 bool loopPrincipal(){
 
@@ -404,22 +415,22 @@ bool loopPrincipal(){
             return false;
             break;
         case 1:
-            opcionInsertarLibreria();
+            repetirAccionWrapper(opcionInsertarLibreria, "Insertar otra libreria?");
             break;
         case 2:
-            opcionBorrarLibreria();
+            repetirAccionWrapper(opcionBorrarLibreria, "Borrar otra libreria?");
             break;
         case 3:
-            opcionMostrarPedidos();
+            repetirAccionWrapper(opcionMostrarPedidos, "Mostrar pedidos de otra libreria?");
             break;
         case 4:
-            opcionBuscarPedido();
+            repetirAccionWrapper(opcionBuscarPedido, "Buscar otro pedido?");
             break;
         case 5:
-            opcionBorrarPedido();
+            repetirAccionWrapper(opcionBorrarPedido, "Borrar otro pedido?");
             break;
         case 6:
-            opcionMoverPedido();
+            repetirAccionWrapper(opcionMoverPedido, "Mover otro pedido?");
             break;
         case 7:
             opcionEstadistica();
