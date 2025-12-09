@@ -4,7 +4,6 @@
 string MateriasLista[NUM_MATERIAS] = {"Matematicas", "Historia","Lengua", "Musica", "Tecnologia", "Fisica" };
 
 using namespace std;
-int *estadistica = new int [6];
 
 //Operador que sobrecarga el cout para imprimir los datos de un pedido en el formato necesario
 ostream& operator<<(ostream& out, const Pedido pedido)

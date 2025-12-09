@@ -318,11 +318,18 @@ string MateriaMasPopular(Libreria lib)
         }
     }
 
-    if(indexMayor == -1) return "No existen pedidos.";
+    if(indexMayor == -1){
+        delete[] materiaEstadistica;
+        return "No existen pedidos.";
+    }
     else
     {
-        return Materias[indexMayor] +"->" + to_string(materiaEstadistica[indexMayor]) + " pedidos";
+        int numIndexMayor = materiaEstadistica[indexMayor];
+        delete[] materiaEstadistica;
+        return Materias[indexMayor] +"->" + to_string(numIndexMayor) + " pedidos";
     }
+
+
 }
 
 string MateriaMenosPopular(Libreria lib)
@@ -337,10 +344,15 @@ string MateriaMenosPopular(Libreria lib)
             indexMenor = i;
         }
     }
-    if(indexMenor == -1) return "No existen pedidos.";
+    if(indexMenor == -1){
+        delete[] materiaEstadistica;
+        return "No existen pedidos.";
+    }
     else
     {
-        return Materias[indexMenor] +"->" + to_string(materiaEstadistica[indexMenor]) + " pedidos";
+        int numIndexMenor = materiaEstadistica[indexMenor];
+        delete[] materiaEstadistica;
+        return Materias[indexMenor] +"->" + to_string(numIndexMenor) + " pedidos";
     }
 }
 
