@@ -191,6 +191,28 @@ void Mostrar(Libreria l);
 //Loop principal del programa.
 bool loopPrincipal();
 
+//Llama varias veces una funcion tras confirmar por el usuario.
+//Muestra el string 'msg' como mensaje de confirmacion y '(y/n)'.
+void repetirAccionWrapper(void (*func)(void), string msg);
+
+//Funcion de opcion para insertar una libreria.
+void opcionInsertarLibreria();
+
+//Funcion de opcion para eliminar una libreria por ID.
+void opcionBorrarLibreria();
+
+//Funcion de opcion para mostrar todos los pedidos de una libreria.
+void opcionMostrarPedidos();
+
+//Funcion de opcion para borrar un pedido de su libreria.
+void opcionBorrarPedido();
+
+//Funcion de opcion para mover un pedido de una libreria a otra.
+void opcionMoverPedido();
+
+//Funcion de opcion para mostrar estadisticas de cada libreria.
+void opcionEstadistica();
+
 //Preparacion de pedidos que se muestran por pantalla y se reparten. Se usa al inicio del programa.
 void prepararPedidos();
 
